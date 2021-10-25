@@ -4,7 +4,7 @@ from tkinter.ttk import *
 
 #Create an instance of tkinter frame
 win = Tk()
-
+hello = "hello"
 #Set the geometry of frame
 win.geometry("1200x600")
 
