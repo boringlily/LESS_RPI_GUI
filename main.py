@@ -16,8 +16,6 @@ def clear_frame():
 def main_page():  # Main Page
     clear_frame()
 
-
-
     my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png"))  # LE Logo Resize
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
