@@ -7,431 +7,435 @@ root.geometry("1024x600")
 frame = Frame(root)
 frame.pack(side="top", expand=True, fill="both")
 
-
 def clear_frame():
-    for widgets in root.winfo_children():
-        widgets.destroy()
+   for widgets in root.winfo_children():
+      widgets.destroy()
 
-
-def main_page():  # Main Page
+def tab(): #Main Page
     clear_frame()
+    global my_img
+    
+    canv1 = Canvas(root, bg='white', width=1600, height=1000) #1024X600 for everything
+    canv1.place(x=1, y=1)
 
+    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo Resize
+    my_label = Label(image=my_img)
+    my_label.grid(column=1, row=0)
+    #resized=my_img.resize((200, 200))
 
+    STTS = Canvas(root, bg='blue', width = 600, height = 200) #Blue Box in every page 'Substation Technical Training Simulator'
+    STTS.place(x=1000, y=1)
+    STTS.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
+    STTS.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill= "white")
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png"))  # LE Logo Resize
+    greyborder = Canvas(root, bg='grey', width=1600, height=100) #Grey border at bottom of each page with button navigation
+    greyborder.place(x=1, y=725)
+
+    simmode = Canvas(root, bg='white', width=400, height=50, highlightbackground = "white")#Simulation mode text
+    simmode.place(x=600, y=250)
+    simmode.create_text(200, 25, text="Simulation Modes", font="Arial 25 bold", fill="black")
+
+    settings = Button(root, text='Settings', font=('Calibri', 20),bg='grey',border = 0, command= tab1) #Settings Button
+    settings.place(x=1400, y=740)
+    mainpg = Button(root, text='Main Page', font=('Calibri', 20), bg='grey', border=0)#main page button (doesn't do anything on 1st pg)
+    mainpg.place(x=700, y=740)
+    back = Button(root, text='Back', font=('Calibri', 20),bg='grey',border = 0)#back button (doesn't do anything on first page)
+    back.place(x=140, y=740)
+    preset = Button(root, text='Preset Modes', font=('Calibri',20), bg='blue', fg='white', command = tab2)#Presets menu button
+    preset.place(x=700, y=400)
+    manual = Button(root, text='Manual Control', font=('Calibri',20), bg='blue', fg='white', command = tab11) #Manual control menu button
+    manual.place(x=700, y=500)      
+
+def tab1(): #Settings Page
+    clear_frame()
+    global my_img
+
+    canv1 = Canvas(root, bg='white', width=1600, height=1000)
+    canv1.place(x=1, y=1)
+
+    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
 
-    canv2 = Canvas(root, bg='blue', width=600, height=200)  # Blue Box in every page
-    canv2.place(x=1000, y=1)
-    canv2.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
-    canv2.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill="white")
-    strip1 = Canvas(root, bg='grey', width=1575, height=100)
-    strip1.place(x=1, y=725)
-    c2 = Canvas(root, bg='blue', width=600, height=200)
-    c2.place(x=1000, y=1)
-    c2.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
-    c2.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill="white")
-    c3 = Canvas(root, bg='white', width=400, height=50, highlightbackground="white")
-    c3.place(x=600, y=250)
-    c3.create_text(200, 25, text="Simulation Modes", font="Arial 25 bold", fill="black")
-    t1_b = Button(root, text='Settings', font=('Calibri', 20), bg='grey', border=0, command=settings_page)
-    t1_b.place(x=1400, y=740)
-    t2_b = Button(root, text='Main Page', font=('Calibri', 20), bg='grey', border=0)  # Add command tab2
-    t2_b.place(x=700, y=740)
-    t3_b = Button(root, text='Back', font=('Calibri', 20), bg='grey', border=0)  # add command tab3
-    t3_b.place(x=140, y=740)
-    t5_b = Button(root, text='Preset Modes', font=('Calibri', 20), bg='blue', fg='white', command=faults_selection_page)
-    t5_b.place(x=700, y=400)
-    t6_b = Button(root, text='Manual Control', font=('Calibri', 20), bg='blue', fg='white', command=manual_control_page)
-    t6_b.place(x=700, y=500)
+    operator_mode= Label(root, text='Operator Mode', bg='white', fg='black', font=('Arial Black', 20)) #Operator mode label
+    operator_mode.place(x=200, y=250)
+    LEDtest= Label(root, text='LED Tests', bg='white', fg='black', font=('Arial Black', 20)) #LED Test label
+    LEDtest.place(x=1200, y=250)
+
+    STTS = Canvas(root, bg='blue', width = 600, height = 200) #Blue Box in every page 'Substation Technical Training Simulator'
+    STTS.place(x=1000, y=1)
+    STTS.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
+    STTS.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill= "white")
+
+    greyborder = Canvas(root, bg='grey', width=1600, height=100) #Grey border at bottom of each page with button navigation
+    greyborder.place(x=1, y=725)
+
+    back = Button(root, text='Back', font=('Calibri', 20),bg='grey',border = 0, command = tab) #back button
+    back.place(x=140, y=740)
+    mainpg = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border = 0, command = tab) #main page button
+    mainpg.place(x=1300, y=740)
+    sett = Canvas(root, bg='grey', width=400, height=50, highlightbackground = "grey") #settings page label
+    sett.place(x=600, y=740)
+    sett.create_text(200, 25, text="Settings", font="Calibri 20", fill="black")
+
+    tog = Button(root, text='Sequential Toggle', font=('Calibri',20), bg='blue', fg='white') #add command later #Sequential toggle button
+    tog.place(x=1180, y=300)
+    AG = Button(root, text='All Green', font=('Calibri',20), bg='blue', fg='white',) #add command later #All Green button
+    AG.place(x=1175, y=375)
+    AR = Button(root, text='All Red', font=('Calibri',20), bg='blue', fg='white') #add command later #All REd button
+    AR.place(x=1325, y=375)
+    LH = Button(root, text='Left Handed', font = ('Calibri', 20), bg='grey', fg='white') #Left Handed mode button
+    LH.place(x=185, y=325)
+    RH = Button(root, text='Right Handed', font = ('Calibri', 20), bg='blue', fg='white') #Right Handed mode button
+    RH.place(x=375, y=325)
 
 
-def settings_page():  # Settings Page
+def tab2(): #Faults Page
     clear_frame()
     global my_img
     canv1 = Canvas(root, bg='white', width=1600, height=1000)
     canv1.place(x=1, y=1)
-    label1 = Label(root, text='Operator Mode', bg='white', fg='black', font=('Arial Black', 20))
+    label1= Label(root, text='Preset Faults', bg='white', fg='black', font=('Arial Black', 20))
     label1.place(x=200, y=250)
-    label2 = Label(root, text='LED Tests', bg='white', fg='black', font=('Arial Black', 20))
-    label2.place(x=1200, y=250)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png"))  # LE Logo
+    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
 
-    canv2 = Canvas(root, bg='blue', width=600, height=200)  # Blue Box in every page
-    canv2.place(x=1000, y=1)
-    canv2.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
-    canv2.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill="white")
+    STTS = Canvas(root, bg='blue', width = 600, height = 200) #Blue Box in every page 'Substation Technical Training Simulator'
+    STTS.place(x=1000, y=1)
+    STTS.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
+    STTS.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill= "white")
 
-    strip1 = Canvas(root, bg='grey', width=1575, height=100)  # Grey border at bottom with buttons
-    strip1.place(x=1, y=725)
-    tab3_b = Button(root, text='Back', font=('Calibri', 20), bg='grey', border=0, command=main_page)
-    tab3_b.place(x=140, y=740)
-    tab4_b = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border=0, command=main_page)
-    tab4_b.place(x=1300, y=740)
-    c3 = Canvas(root, bg='grey', width=400, height=50, highlightbackground="grey")
-    c3.place(x=600, y=740)
-    c3.create_text(200, 25, text="Settings", font="Calibri 20", fill="black")
+    greyborder = Canvas(root, bg='grey', width=1600, height=100) #Grey border at bottom of each page with button navigation
+    greyborder.place(x=1, y=725)
 
-    tab5_b = Button(root, text='Sequential Toggle', font=('Calibri', 20), bg='blue', fg='white')  # add command later
-    tab5_b.place(x=1180, y=300)
-    tab6_b = Button(root, text='All Green', font=('Calibri', 20), bg='blue', fg='white', )  # add command later
-    tab6_b.place(x=1175, y=375)
-    tab7_b = Button(root, text='All Red', font=('Calibri', 20), bg='blue', fg='white')  # add command later
-    tab7_b.place(x=1325, y=375)
-    tab8_b = Button(root, text='Left Handed', font=('Calibri', 20), bg='grey', fg='white')
-    tab8_b.place(x=185, y=325)
-    tab9_b = Button(root, text='Right Handed', font=('Calibri', 20), bg='blue', fg='white')
-    tab9_b.place(x=375, y=325)
+    back = Button(root, text='Back', font=('Calibri', 20),bg='grey',border = 0, command = tab) #back button to Faults Page
+    back.place(x=140, y=740)
+    mainpg = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border = 0, command = tab) #main page button
+    mainpg.place(x=1300, y=740)
+    preset = Canvas(root, bg='grey', width=400, height=50, highlightbackground = "grey") #Preset Selection page label
+    preset.place(x=600, y=740)
+    preset.create_text(200, 25, text="Preset Selection", font="Calibri 20", fill="black")
+
+    flt1 = Button(root, text='      1      ', font=('Calibri',20), bg='blue', fg='white', command = tab3) #fault 1
+    flt1.place(x=150, y=350)
+    flt2 = Button(root, text='      2      ', font=('Calibri',20), bg='blue', fg='white', command = tab4) #fault 2
+    flt2.place(x=550, y=350)
+    flt3 = Button(root, text='      3      ', font=('Calibri',20), bg='blue', fg='white', command = tab5) #fault 3
+    flt3.place(x=950, y=350)
+    flt4 = Button(root, text='      4      ', font=('Calibri',20), bg='blue', fg='white', command = tab6) #fault 4
+    flt4.place(x=1350, y=350)
+    flt5 = Button(root, text='      5      ', font=('Calibri',20), bg='blue', fg='white', command = tab7) #fault 5
+    flt5.place(x=150, y=550)
+    flt6 = Button(root, text='      6      ', font=('Calibri',20), bg='blue', fg='white', command = tab8) #fault 6
+    flt6.place(x=550, y=550)
+    flt7 = Button(root, text='      7      ', font=('Calibri',20), bg='blue', fg='white', command = tab9) #fault 7
+    flt7.place(x=950, y=550)
+    flt8 = Button(root, text='      8      ', font=('Calibri',20), bg='blue', fg='white', command = tab10) #fault 8
+    flt8.place(x=1350, y=550)
 
 
-def faults_selection_page():  # Faults Page
+def tab3(): #Fault 1
+    clear_frame()
+    global my_img
+
+    canv1 = Canvas(root, bg='white', width=1600, height=1000)
+    canv1.place(x=1, y=1)
+    stp1= Label(root, text='    Step 1    ', bg='grey', fg='blue', font=('Arial Black', 20), width=10, height=2) #Step 1 Page label
+    stp1.place(x=710, y=400)
+
+    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
+    my_label = Label(image=my_img)
+    my_label.grid(column=1, row=0)
+    
+    STTS = Canvas(root, bg='blue', width = 600, height = 200) #Blue Box in every page 'Substation Technical Training Simulator'
+    STTS.place(x=1000, y=1)
+    STTS.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
+    STTS.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill= "white")
+
+    greyborder = Canvas(root, bg='grey', width=1600, height=100) #Grey border at bottom of each page with button navigation
+    greyborder.place(x=1, y=725)
+
+    back1 = Button(root, text='Back', font=('Calibri', 20),bg='grey',border = 0, command = tab2) #back button to Faults Page
+    back1.place(x=140, y=740)
+    mainpg = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border = 0, command = tab) #Main page button
+    mainpg.place(x=1300, y=740)
+    fltsim1 = Canvas(root, bg='grey', width=400, height=50, highlightbackground = "grey") #Fault simulation 1 label
+    fltsim1.place(x=600, y=740)
+    fltsim1.create_text(200, 25, text="Fault 1 Simulation", font="Calibri 20", fill="black")
+
+    nxt = Button(root, text='         Next         ', font=('Calibri',20), bg='blue', fg='white', height = 2, command = tab4) #next fault button 
+    nxt.place(x=1015, y=400)
+    back2 = Button(root, text='         Back         ', font=('Calibri',20), bg='blue', fg='white', height = 2) #back button to previous fault. doesn't do anything on 1.
+    back2.place(x=400, y=400)
+
+def tab4(): #Fault 2
+    clear_frame()
+    global my_img
+
+    canv1 = Canvas(root, bg='white', width=1600, height=1000)
+    canv1.place(x=1, y=1)
+    stp2= Label(root, text='    Step 2    ', bg='grey', fg='blue', font=('Arial Black', 20), width=10, height=2) #Step 2 Page label
+    stp2.place(x=710, y=400)
+
+    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
+    my_label = Label(image=my_img)
+    my_label.grid(column=1, row=0)
+    
+    STTS = Canvas(root, bg='blue', width = 600, height = 200) #Blue Box in every page 'Substation Technical Training Simulator'
+    STTS.place(x=1000, y=1)
+    STTS.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
+    STTS.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill= "white")
+
+    greyborder = Canvas(root, bg='grey', width=1600, height=100) #Grey border at bottom of each page with button navigation
+    greyborder.place(x=1, y=725)
+
+    back1 = Button(root, text='Back', font=('Calibri', 20),bg='grey',border = 0, command = tab2) #back button to Faults Page
+    back1.place(x=140, y=740)
+    mainpg = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border = 0, command = tab) #main page button
+    mainpg.place(x=1300, y=740)
+    fltsim2 = Canvas(root, bg='grey', width=400, height=50, highlightbackground = "grey") #Fault simulation 2 label
+    fltsim2.place(x=600, y=740)
+    fltsim2.create_text(200, 25, text="Fault 2 Simulation", font="Calibri 20", fill="black")
+
+    nxt = Button(root, text='         Next         ', font=('Calibri',20), bg='blue', fg='white', height = 2, command = tab5) #next fault button 
+    nxt.place(x=1015, y=400)
+    back2 = Button(root, text='         Back         ', font=('Calibri',20), bg='blue', fg='white', height = 2, command = tab3) #back to fault 1.
+    back2.place(x=400, y=400)
+
+def tab5(): #Fault 3
+    clear_frame()
+    global my_img
+
+    canv1 = Canvas(root, bg='white', width=1600, height=1000)
+    canv1.place(x=1, y=1)
+    stp3= Label(root, text='    Step 3    ', bg='grey', fg='blue', font=('Arial Black', 20), width=10, height=2) #Step 3 Page label
+    stp3.place(x=710, y=400)
+
+    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
+    my_label = Label(image=my_img)
+    my_label.grid(column=1, row=0)
+    
+    STTS = Canvas(root, bg='blue', width = 600, height = 200) #Blue Box in every page 'Substation Technical Training Simulator'
+    STTS.place(x=1000, y=1)
+    STTS.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
+    STTS.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill= "white")
+
+    greyborder = Canvas(root, bg='grey', width=1600, height=100) #Grey border at bottom of each page with button navigation
+    greyborder.place(x=1, y=725)
+
+    back1 = Button(root, text='Back', font=('Calibri', 20),bg='grey',border = 0, command = tab2) #Back button to Faults page
+    back1.place(x=140, y=740)
+    mainpg = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border = 0, command = tab) #Main page button
+    mainpg.place(x=1300, y=740)
+    fltsim3 = Canvas(root, bg='grey', width=400, height=50, highlightbackground = "grey") #Fault simulation 3 label
+    fltsim3.place(x=600, y=740)
+    fltsim3.create_text(200, 25, text="Fault 3 Simulation", font="Calibri 20", fill="black")
+
+    nxt = Button(root, text='         Next         ', font=('Calibri',20), bg='blue', fg='white', height = 2, command = tab6) #next fault button 
+    nxt.place(x=1015, y=400)
+    back2 = Button(root, text='         Back         ', font=('Calibri',20), bg='blue', fg='white', height = 2, command = tab4) #back to fault 2
+    back2.place(x=400, y=400)
+
+def tab6(): #Fault 4 
     clear_frame()
     global my_img
     canv1 = Canvas(root, bg='white', width=1600, height=1000)
     canv1.place(x=1, y=1)
-    label1 = Label(root, text='Preset Faults', bg='white', fg='black', font=('Arial Black', 20))
-    label1.place(x=200, y=250)
+    stp4= Label(root, text='    Step 4    ', bg='grey', fg='blue', font=('Arial Black', 20), width=10, height=2) #Step 4 Page label
+    stp4.place(x=710, y=400)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png"))  # LE Logo
+    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
+    
+    STTS = Canvas(root, bg='blue', width = 600, height = 200) #Blue Box in every page 'Substation Technical Training Simulator'
+    STTS.place(x=1000, y=1)
+    STTS.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
+    STTS.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill= "white")
 
-    canv2 = Canvas(root, bg='blue', width=600, height=200)  # Blue Box in every page
-    canv2.place(x=1000, y=1)
-    canv2.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
-    canv2.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill="white")
+    greyborder = Canvas(root, bg='grey', width=1600, height=100) #Grey border at bottom of each page with button navigation
+    greyborder.place(x=1, y=725)
 
-    strip1 = Canvas(root, bg='grey', width=1575, height=100)  # Grey border at bottom with buttons
-    strip1.place(x=1, y=725)
-    tab3_b = Button(root, text='Back', font=('Calibri', 20), bg='grey', border=0, command=main_page)
-    tab3_b.place(x=140, y=740)
-    tab4_b = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border=0, command=main_page)
-    tab4_b.place(x=1300, y=740)
-    c3 = Canvas(root, bg='grey', width=400, height=50, highlightbackground="grey")
-    c3.place(x=600, y=740)
-    c3.create_text(200, 25, text="Preset Selection", font="Calibri 20", fill="black")
+    back1 = Button(root, text='Back', font=('Calibri', 20),bg='grey',border = 0, command = tab2) #back button to Faults page
+    back1.place(x=140, y=740)
+    mainpg = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border = 0, command = tab) #Main page button
+    mainpg.place(x=1300, y=740)
+    fltsim4 = Canvas(root, bg='grey', width=400, height=50, highlightbackground = "grey") #fault simulation 4 label
+    fltsim4.place(x=600, y=740)
+    fltsim4.create_text(200, 25, text="Fault 4 Simulation", font="Calibri 20", fill="black")
 
-    tab5_b = Button(root, text='      1      ', font=('Calibri', 20), bg='blue', fg='white', command=fault1_page)
-    tab5_b.place(x=150, y=350)
-    tab6_b = Button(root, text='      2      ', font=('Calibri', 20), bg='blue', fg='white', command=fault2_page)
-    tab6_b.place(x=550, y=350)
-    tab7_b = Button(root, text='      3      ', font=('Calibri', 20), bg='blue', fg='white', command=fault3_page)
-    tab7_b.place(x=950, y=350)
-    tab8_b = Button(root, text='      4      ', font=('Calibri', 20), bg='blue', fg='white', command=fault4_page)
-    tab8_b.place(x=1350, y=350)
-    tab9_b = Button(root, text='      5      ', font=('Calibri', 20), bg='blue', fg='white', command=fault5_page)
-    tab9_b.place(x=150, y=550)
-    tab10_b = Button(root, text='      6      ', font=('Calibri', 20), bg='blue', fg='white', command=fault6_page)
-    tab10_b.place(x=550, y=550)
-    tab11_b = Button(root, text='      7      ', font=('Calibri', 20), bg='blue', fg='white', command=fault7_page)
-    tab11_b.place(x=950, y=550)
-    tab12_b = Button(root, text='      8      ', font=('Calibri', 20), bg='blue', fg='white', command=fault8_page)
-    tab12_b.place(x=1350, y=550)
+    nxt = Button(root, text='   Next   ', font=('Calibri',20), bg='blue', fg='white', command = tab7) #Next fault button 
+    nxt.place(x=1015, y=400)
+    nxt = Button(root, text='         Next         ', font=('Calibri',20), bg='blue', fg='white', height = 2, command = tab7) #next fault button 
+    nxt.place(x=1015, y=400)
+    back2 = Button(root, text='         Back         ', font=('Calibri',20), bg='blue', fg='white', height = 2, command = tab5) #back to fault 3
+    back2.place(x=400, y=400)
 
-
-def fault1_page():  # Fault 1
+def tab7(): #Fault 5
     clear_frame()
     global my_img
     canv1 = Canvas(root, bg='white', width=1600, height=1000)
     canv1.place(x=1, y=1)
-    label1 = Label(root, text='    Step 1    ', bg='grey', fg='blue', font=('Arial Black', 20))
-    label1.place(x=200, y=325)
+    stp5= Label(root, text='    Step 5    ', bg='grey', fg='blue', font=('Arial Black', 20), width=10, height=2) #Step 5 Page label
+    stp5.place(x=710, y=400)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png"))  # LE Logo
+    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE LogoSTTS
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
+    
+    STTS = Canvas(root, bg='blue', width = 600, height = 200) #Blue Box in every page 'Substation Technical Training Simulator'
+    STTS.place(x=1000, y=1)
+    STTS.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
+    STTS.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill= "white")
 
-    canv2 = Canvas(root, bg='blue', width=600, height=200)  # Blue Box in every page
-    canv2.place(x=1000, y=1)
-    canv2.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
-    canv2.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill="white")
+    greyborder = Canvas(root, bg='grey', width=1600, height=100) #Grey border at bottom of each page with button navigation
+    greyborder.place(x=1, y=725)
 
-    strip1 = Canvas(root, bg='grey', width=1575, height=100)  # Grey border at bottom with buttons
-    strip1.place(x=1, y=725)
-    tab3_b = Button(root, text='Back', font=('Calibri', 20), bg='grey', border=0, command=faults_selection_page)
-    tab3_b.place(x=140, y=740)
-    tab4_b = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border=0, command=main_page)
-    tab4_b.place(x=1300, y=740)
-    c3 = Canvas(root, bg='grey', width=400, height=50, highlightbackground="grey")
-    c3.place(x=600, y=740)
-    c3.create_text(200, 25, text="Fault 1 Simulation", font="Calibri 20", fill="black")
+    back1 = Button(root, text='Back', font=('Calibri', 20),bg='grey',border = 0, command = tab2) #back button to faults page
+    back1.place(x=140, y=740)
+    mainpg = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border = 0, command = tab) #Main page button
+    mainpg.place(x=1300, y=740)
+    fltsim5 = Canvas(root, bg='grey', width=400, height=50, highlightbackground = "grey") #fault simulation 5 label
+    fltsim5.place(x=600, y=740)
+    fltsim5.create_text(200, 25, text="Fault 5 Simulation", font="Calibri 20", fill="black")
 
-    tab5_b = Button(root, text='   Next   ', font=('Calibri', 20), bg='blue', fg='white',
-                    command=fault2_page)  # Add a command for going to next fault
-    tab5_b.place(x=1200, y=400)
-    tab6_b = Button(root, text='   Back   ', font=('Calibri', 20), bg='blue', fg='white')
-    tab6_b.place(x=1200, y=500)
+    nxt = Button(root, text='   Next   ', font=('Calibri',20), bg='blue', fg='white', command = tab8) #Next fault button 
+    nxt.place(x=1015, y=400)
+    nxt = Button(root, text='         Next         ', font=('Calibri',20), bg='blue', fg='white', height = 2, command = tab8) #next fault button 
+    nxt.place(x=1015, y=400)
+    back2 = Button(root, text='         Back         ', font=('Calibri',20), bg='blue', fg='white', height = 2, command = tab6) #back to fault 4
+    back2.place(x=400, y=400)
 
-
-def fault2_page():  # Fault 2
+def tab8(): #Fault 6
     clear_frame()
     global my_img
     canv1 = Canvas(root, bg='white', width=1600, height=1000)
     canv1.place(x=1, y=1)
-    label1 = Label(root, text='    Step 2    ', bg='grey', fg='blue', font=('Arial Black', 20))
-    label1.place(x=200, y=325)
+    stp6= Label(root, text='    Step 6    ', bg='grey', fg='blue', font=('Arial Black', 20), width=10, height=2) #Step 6 Page label
+    stp6.place(x=710, y=400)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png"))  # LE Logo
+    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
+    
+    STTS = Canvas(root, bg='blue', width = 600, height = 200) #Blue Box in every page 'Substation Technical Training Simulator'
+    STTS.place(x=1000, y=1)
+    STTS.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
+    STTS.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill= "white")
 
-    canv2 = Canvas(root, bg='blue', width=600, height=200)  # Blue Box in every page
-    canv2.place(x=1000, y=1)
-    canv2.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
-    canv2.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill="white")
+    greyborder = Canvas(root, bg='grey', width=1600, height=100) #Grey border at bottom with buttons
+    greyborder.place(x=1, y=725)
 
-    strip1 = Canvas(root, bg='grey', width=1575, height=100)  # Grey border at bottom with buttons
-    strip1.place(x=1, y=725)
-    tab3_b = Button(root, text='Back', font=('Calibri', 20), bg='grey', border=0, command=faults_selection_page)
-    tab3_b.place(x=140, y=740)
-    tab4_b = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border=0, command=main_page)
-    tab4_b.place(x=1300, y=740)
-    c3 = Canvas(root, bg='grey', width=400, height=50, highlightbackground="grey")
-    c3.place(x=600, y=740)
-    c3.create_text(200, 25, text="Fault 2 Simulation", font="Calibri 20", fill="black")
+    back1 = Button(root, text='Back', font=('Calibri', 20),bg='grey',border = 0, command = tab2) #back button to faults page
+    back1.place(x=140, y=740)
+    mainpg = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border = 0, command = tab) #Main page button
+    mainpg.place(x=1300, y=740)
+    fltsim6 = Canvas(root, bg='grey', width=400, height=50, highlightbackground = "grey") #fault simulation 6 label
+    fltsim6.place(x=600, y=740)
+    fltsim6.create_text(200, 25, text="Fault 6 Simulation", font="Calibri 20", fill="black")
 
-    tab5_b = Button(root, text='   Next   ', font=('Calibri', 20), bg='blue', fg='white',
-                    command=fault3_page)  # Add a command for going to next fault
-    tab5_b.place(x=1200, y=400)
-    tab6_b = Button(root, text='   Back   ', font=('Calibri', 20), bg='blue', fg='white', command=fault1_page)
-    tab6_b.place(x=1200, y=500)
+    nxt = Button(root, text='         Next         ', font=('Calibri',20), bg='blue', fg='white', height = 2, command = tab9) #next fault button 
+    nxt.place(x=1015, y=400)
+    back2 = Button(root, text='         Back         ', font=('Calibri',20), bg='blue', fg='white', height = 2, command = tab7) #back to fault 5
+    back2.place(x=400, y=400)
 
-
-def fault3_page():  # Fault 3
+def tab9(): #Fault 7
     clear_frame()
     global my_img
     canv1 = Canvas(root, bg='white', width=1600, height=1000)
     canv1.place(x=1, y=1)
-    label1 = Label(root, text='    Step 3    ', bg='grey', fg='blue', font=('Arial Black', 20))
-    label1.place(x=200, y=325)
+    stp7= Label(root, text='    Step 7    ', bg='grey', fg='blue', font=('Arial Black', 20), width=10, height=2) #Step 7 Page label
+    stp7.place(x=710, y=400)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png"))  # LE Logo
+    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
+    
+    STTS = Canvas(root, bg='blue', width = 600, height = 200) #Blue Box in every page 'Substation Technical Training Simulator'
+    STTS.place(x=1000, y=1)
+    STTS.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
+    STTS.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill= "white")
 
-    canv2 = Canvas(root, bg='blue', width=600, height=200)  # Blue Box in every page
-    canv2.place(x=1000, y=1)
-    canv2.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
-    canv2.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill="white")
+    greyborder = Canvas(root, bg='grey', width=1600, height=100) #Grey border at bottom with buttons
+    greyborder.place(x=1, y=725)
 
-    strip1 = Canvas(root, bg='grey', width=1575, height=100)  # Grey border at bottom with buttons
-    strip1.place(x=1, y=725)
-    tab3_b = Button(root, text='Back', font=('Calibri', 20), bg='grey', border=0, command=faults_selection_page)
-    tab3_b.place(x=140, y=740)
-    tab4_b = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border=0, command=main_page)
-    tab4_b.place(x=1300, y=740)
-    c3 = Canvas(root, bg='grey', width=400, height=50, highlightbackground="grey")
-    c3.place(x=600, y=740)
-    c3.create_text(200, 25, text="Fault 3 Simulation", font="Calibri 20", fill="black")
+    back1 = Button(root, text='Back', font=('Calibri', 20),bg='grey',border = 0, command = tab2) #back button to faults page
+    back1.place(x=140, y=740)
+    mainpg = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border = 0, command = tab) #Main page button
+    mainpg.place(x=1300, y=740)
+    fltsim7 = Canvas(root, bg='grey', width=400, height=50, highlightbackground = "grey") #fault simulation 7 label
+    fltsim7.place(x=600, y=740)
+    fltsim7.create_text(200, 25, text="Fault 7 Simulation", font="Calibri 20", fill="black")
 
-    tab5_b = Button(root, text='   Next   ', font=('Calibri', 20), bg='blue', fg='white',
-                    command=fault4_page)  # Add a command for going to next fault
-    tab5_b.place(x=1200, y=400)
-    tab6_b = Button(root, text='   Back   ', font=('Calibri', 20), bg='blue', fg='white', command=fault2_page)
-    tab6_b.place(x=1200, y=500)
+    nxt = Button(root, text='         Next         ', font=('Calibri',20), bg='blue', fg='white', height = 2, command = tab10) #next fault button 
+    nxt.place(x=1015, y=400)
+    back2 = Button(root, text='         Back         ', font=('Calibri',20), bg='blue', fg='white', height = 2, command = tab8) #back to fault 6
+    back2.place(x=400, y=400)
 
-
-def fault4_page():  # Fault 4
+def tab10(): #Fault 8
     clear_frame()
     global my_img
     canv1 = Canvas(root, bg='white', width=1600, height=1000)
     canv1.place(x=1, y=1)
-    label1 = Label(root, text='    Step 4    ', bg='grey', fg='blue', font=('Arial Black', 20))
-    label1.place(x=200, y=325)
+    stp8= Label(root, text='    Step 8    ', bg='grey', fg='blue', font=('Arial Black', 20), width=10, height=2) #Step 8 Page label
+    stp8.place(x=710, y=400)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png"))  # LE Logo
+    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
+    
+    STTS = Canvas(root, bg='blue', width = 600, height = 200) #Blue Box in every page 'Substation Technical Training Simulator'
+    STTS.place(x=1000, y=1)
+    STTS.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
+    STTS.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill= "white")
 
-    canv2 = Canvas(root, bg='blue', width=600, height=200)  # Blue Box in every page
-    canv2.place(x=1000, y=1)
-    canv2.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
-    canv2.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill="white")
+    greyborder = Canvas(root, bg='grey', width=1600, height=100) #Grey border at bottom with buttons
+    greyborder.place(x=1, y=725)
 
-    strip1 = Canvas(root, bg='grey', width=1575, height=100)  # Grey border at bottom with buttons
-    strip1.place(x=1, y=725)
-    tab3_b = Button(root, text='Back', font=('Calibri', 20), bg='grey', border=0, command=faults_selection_page)
-    tab3_b.place(x=140, y=740)
-    tab4_b = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border=0, command=main_page)
-    tab4_b.place(x=1300, y=740)
-    c3 = Canvas(root, bg='grey', width=400, height=50, highlightbackground="grey")
-    c3.place(x=600, y=740)
-    c3.create_text(200, 25, text="Fault 4 Simulation", font="Calibri 20", fill="black")
+    back1 = Button(root, text='Back', font=('Calibri', 20),bg='grey',border = 0, command = tab2) #back button to faults page
+    back1.place(x=140, y=740)
+    mainpg = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border = 0, command = tab) #Main page button
+    mainpg.place(x=1300, y=740)
+    fltsim8 = Canvas(root, bg='grey', width=400, height=50, highlightbackground = "grey") #fault simulation 8 label
+    fltsim8.place(x=600, y=740)
+    fltsim8.create_text(200, 25, text="Fault 8 Simulation", font="Calibri 20", fill="black")
 
-    tab5_b = Button(root, text='   Next   ', font=('Calibri', 20), bg='blue', fg='white',
-                    command=fault5_page)  # Add a command for going to next fault
-    tab5_b.place(x=1200, y=400)
-    tab6_b = Button(root, text='   Back   ', font=('Calibri', 20), bg='blue', fg='white', command=fault3_page)
-    tab6_b.place(x=1200, y=500)
+    nxt = Button(root, text='         Next         ', font=('Calibri',20), bg='blue', fg='white', height = 2) #next fault button. Doesn't do anything
+    nxt.place(x=1015, y=400)
+    back2 = Button(root, text='         Back         ', font=('Calibri',20), bg='blue', fg='white', height = 2, command = tab9) #back to fault 7
+    back2.place(x=400, y=400)
 
-
-def fault5_page():  # Fault 5
-    clear_frame()
-    global my_img
-    canv1 = Canvas(root, bg='white', width=1600, height=1000)
-    canv1.place(x=1, y=1)
-    label1 = Label(root, text='    Step 5    ', bg='grey', fg='blue', font=('Arial Black', 20))
-    label1.place(x=200, y=325)
-
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png"))  # LE Logo
-    my_label = Label(image=my_img)
-    my_label.grid(column=1, row=0)
-
-    canv2 = Canvas(root, bg='blue', width=600, height=200)  # Blue Box in every page
-    canv2.place(x=1000, y=1)
-    canv2.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
-    canv2.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill="white")
-
-    strip1 = Canvas(root, bg='grey', width=1575, height=100)  # Grey border at bottom with buttons
-    strip1.place(x=1, y=725)
-    tab3_b = Button(root, text='Back', font=('Calibri', 20), bg='grey', border=0, command=faults_selection_page)
-    tab3_b.place(x=140, y=740)
-    tab4_b = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border=0, command=main_page)
-    tab4_b.place(x=1300, y=740)
-    c3 = Canvas(root, bg='grey', width=400, height=50, highlightbackground="grey")
-    c3.place(x=600, y=740)
-    c3.create_text(200, 25, text="Fault 5 Simulation", font="Calibri 20", fill="black")
-
-    tab5_b = Button(root, text='   Next   ', font=('Calibri', 20), bg='blue', fg='white',
-                    command=fault6_page)  # Add a command for going to next fault
-    tab5_b.place(x=1200, y=400)
-    tab6_b = Button(root, text='   Back   ', font=('Calibri', 20), bg='blue', fg='white', command=fault4_page)
-    tab6_b.place(x=1200, y=500)
-
-
-def fault6_page():  # Fault 6
-    clear_frame()
-    global my_img
-    canv1 = Canvas(root, bg='white', width=1600, height=1000)
-    canv1.place(x=1, y=1)
-    label1 = Label(root, text='    Step 6    ', bg='grey', fg='blue', font=('Arial Black', 20))
-    label1.place(x=200, y=325)
-
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png"))  # LE Logo
-    my_label = Label(image=my_img)
-    my_label.grid(column=1, row=0)
-
-    canv2 = Canvas(root, bg='blue', width=600, height=200)  # Blue Box in every page
-    canv2.place(x=1000, y=1)
-    canv2.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
-    canv2.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill="white")
-
-    strip1 = Canvas(root, bg='grey', width=1575, height=100)  # Grey border at bottom with buttons
-    strip1.place(x=1, y=725)
-    tab3_b = Button(root, text='Back', font=('Calibri', 20), bg='grey', border=0, command=faults_selection_page)
-    tab3_b.place(x=140, y=740)
-    tab4_b = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border=0, command=main_page)
-    tab4_b.place(x=1300, y=740)
-    c3 = Canvas(root, bg='grey', width=400, height=50, highlightbackground="grey")
-    c3.place(x=600, y=740)
-    c3.create_text(200, 25, text="Fault 6 Simulation", font="Calibri 20", fill="black")
-
-    tab5_b = Button(root, text='   Next   ', font=('Calibri', 20), bg='blue', fg='white',
-                    command=fault7_page)  # Add a command for going to next fault
-    tab5_b.place(x=1200, y=400)
-    tab6_b = Button(root, text='   Back   ', font=('Calibri', 20), bg='blue', fg='white', command=fault5_page)
-    tab6_b.place(x=1200, y=500)
-
-
-def fault7_page():  # Fault 7
-    clear_frame()
-    global my_img
-    canv1 = Canvas(root, bg='white', width=1600, height=1000)
-    canv1.place(x=1, y=1)
-    label1 = Label(root, text='    Step 7    ', bg='grey', fg='blue', font=('Arial Black', 20))
-    label1.place(x=200, y=325)
-
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png"))  # LE Logo
-    my_label = Label(image=my_img)
-    my_label.grid(column=1, row=0)
-
-    canv2 = Canvas(root, bg='blue', width=600, height=200)  # Blue Box in every page
-    canv2.place(x=1000, y=1)
-    canv2.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
-    canv2.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill="white")
-
-    strip1 = Canvas(root, bg='grey', width=1575, height=100)  # Grey border at bottom with buttons
-    strip1.place(x=1, y=725)
-    tab3_b = Button(root, text='Back', font=('Calibri', 20), bg='grey', border=0, command=faults_selection_page)
-    tab3_b.place(x=140, y=740)
-    tab4_b = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border=0, command=main_page)
-    tab4_b.place(x=1300, y=740)
-    c3 = Canvas(root, bg='grey', width=400, height=50, highlightbackground="grey")
-    c3.place(x=600, y=740)
-    c3.create_text(200, 25, text="Fault 7 Simulation", font="Calibri 20", fill="black")
-
-    tab5_b = Button(root, text='   Next   ', font=('Calibri', 20), bg='blue', fg='white',
-                    command=fault8_page)  # Add a command for going to next fault
-    tab5_b.place(x=1200, y=400)
-    tab6_b = Button(root, text='   Back   ', font=('Calibri', 20), bg='blue', fg='white', command=fault6_page)
-    tab6_b.place(x=1200, y=500)
-
-
-def fault8_page():  # Fault 8
-    clear_frame()
-    global my_img
-    canv1 = Canvas(root, bg='white', width=1600, height=1000)
-    canv1.place(x=1, y=1)
-    label1 = Label(root, text='    Step 8    ', bg='grey', fg='blue', font=('Arial Black', 20))
-    label1.place(x=200, y=325)
-
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png"))  # LE Logo
-    my_label = Label(image=my_img)
-    my_label.grid(column=1, row=0)
-
-    canv2 = Canvas(root, bg='blue', width=600, height=200)  # Blue Box in every page
-    canv2.place(x=1000, y=1)
-    canv2.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
-    canv2.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill="white")
-
-    strip1 = Canvas(root, bg='grey', width=1575, height=100)  # Grey border at bottom with buttons
-    strip1.place(x=1, y=725)
-    tab3_b = Button(root, text='Back', font=('Calibri', 20), bg='grey', border=0, command=faults_selection_page)
-    tab3_b.place(x=140, y=740)
-    tab4_b = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border=0, command=main_page)
-    tab4_b.place(x=1300, y=740)
-    c3 = Canvas(root, bg='grey', width=400, height=50, highlightbackground="grey")
-    c3.place(x=600, y=740)
-    c3.create_text(200, 25, text="Fault 8 Simulation", font="Calibri 20", fill="black")
-
-    tab5_b = Button(root, text='   Next   ', font=('Calibri', 20), bg='blue',
-                    fg='white')  # Add a command for going to next fault
-    tab5_b.place(x=1200, y=400)
-    tab6_b = Button(root, text='   Back   ', font=('Calibri', 20), bg='blue', fg='white', command=fault7_page)
-    tab6_b.place(x=1200, y=500)
-
-
-def manual_control_page():  # Manual Mode
+def tab11(): #Manual Mode
 
     clear_frame()
     global my_img
+
     canv1 = Canvas(root, bg='white', width=1600, height=1000)
     canv1.place(x=1, y=1)
-    label1 = Label(root, text='Manual Mode', bg='white', fg='black', font=('Arial Black', 20))
-    label1.place(x=700, y=225)
+    manual_mode1= Label(root, text='Manual Mode', bg='white', fg='black', font=('Arial Black', 20)) #Manual mode page label
+    manual_mode1.place(x=700, y=225)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png"))  # LE Logo
+    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
+    
+    STTS = Canvas(root, bg='blue', width = 600, height = 200) #Blue Box in every page 'Substation Technical Training Simulator'
+    STTS.place(x=1000, y=1)
+    STTS.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
+    STTS.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill= "white")
 
-    canv2 = Canvas(root, bg='blue', width=600, height=200)  # Blue Box in every page
-    canv2.place(x=1000, y=1)
-    canv2.create_text(300, 50, text="Substation Technical", font="Calibri 45", fill="white")
-    canv2.create_text(300, 120, text="Training Simulator", font="Calibri 45", fill="white")
+    greyborder = Canvas(root, bg='grey', width=1600, height=100) #Grey border at bottom with buttons
+    greyborder.place(x=1, y=725)
 
-    strip1 = Canvas(root, bg='grey', width=1575, height=100)  # Grey border at bottom with buttons
-    strip1.place(x=1, y=725)
-    tab3_b = Button(root, text='Back', font=('Calibri', 20), bg='grey', border=0, command=faults_selection_page)
-    tab3_b.place(x=140, y=740)
-    tab4_b = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border=0, command=main_page)
-    tab4_b.place(x=1300, y=740)
-    c3 = Canvas(root, bg='grey', width=400, height=50, highlightbackground="grey")
-    c3.place(x=600, y=740)
-    c3.create_text(200, 25, text="Manual Mode", font="Calibri 20", fill="black")
+    back1 = Button(root, text='Back', font=('Calibri', 20),bg='grey',border = 0, command = tab2) #back button to faults page
+    back1.place(x=140, y=740)
+    mainpg = Button(root, text='Go to Main', font=('Calibri', 20), bg='grey', border = 0, command = tab) #Main page button
+    mainpg.place(x=1300, y=740)
+    manual_mode2 = Canvas(root, bg='grey', width=400, height=50, highlightbackground = "grey") #Manual mode page label
+    manual_mode2.place(x=600, y=740)
+    manual_mode2.create_text(200, 25, text="Manual Mode", font="Calibri 20", fill="black")
 
     b1 = Button(root, text='  1  ', font=('Calibri', 20), bg='blue', fg='white')
     b1.place(x=125, y=300)
@@ -444,7 +448,7 @@ def manual_control_page():  # Manual Mode
     b5 = Button(root, text='  5  ', font=('Calibri', 20), bg='blue', fg='white')
     b5.place(x=625, y=300)
     b6 = Button(root, text='  6  ', font=('Calibri', 20), bg='blue', fg='white')
-    b6.place(x=750, y=300)
+    b6.place(x=750, y=300)  
     b7 = Button(root, text='  7  ', font=('Calibri', 20), bg='blue', fg='white')
     b7.place(x=875, y=300)
     b8 = Button(root, text='  8  ', font=('Calibri', 20), bg='blue', fg='white')
@@ -467,7 +471,7 @@ def manual_control_page():  # Manual Mode
     b16 = Button(root, text=' 16 ', font=('Calibri', 20), bg='blue', fg='white')
     b16.place(x=625, y=375)
     b17 = Button(root, text=' 17 ', font=('Calibri', 20), bg='blue', fg='white')
-    b17.place(x=750, y=375)
+    b17.place(x=750, y=375) 
     b18 = Button(root, text=' 18 ', font=('Calibri', 20), bg='blue', fg='white')
     b18.place(x=875, y=375)
     b19 = Button(root, text=' 19 ', font=('Calibri', 20), bg='blue', fg='white')
@@ -490,7 +494,7 @@ def manual_control_page():  # Manual Mode
     b27 = Button(root, text=' 27 ', font=('Calibri', 20), bg='blue', fg='white')
     b27.place(x=625, y=450)
     b28 = Button(root, text=' 28 ', font=('Calibri', 20), bg='blue', fg='white')
-    b28.place(x=750, y=450)
+    b28.place(x=750, y=450) 
     b29 = Button(root, text=' 29 ', font=('Calibri', 20), bg='blue', fg='white')
     b29.place(x=875, y=450)
     b30 = Button(root, text=' 30 ', font=('Calibri', 20), bg='blue', fg='white')
@@ -513,7 +517,7 @@ def manual_control_page():  # Manual Mode
     b38 = Button(root, text=' 27 ', font=('Calibri', 20), bg='blue', fg='white')
     b38.place(x=625, y=525)
     b39 = Button(root, text=' 28 ', font=('Calibri', 20), bg='blue', fg='white')
-    b39.place(x=750, y=525)
+    b39.place(x=750, y=525) 
     b40 = Button(root, text=' 29 ', font=('Calibri', 20), bg='blue', fg='white')
     b40.place(x=875, y=525)
     b41 = Button(root, text=' 30 ', font=('Calibri', 20), bg='blue', fg='white')
@@ -540,7 +544,6 @@ def manual_control_page():  # Manual Mode
     b51 = Button(root, text=' 51 ', font=('Calibri', 20), bg='blue', fg='white')
     b51.place(x=875, y=600)
 
-
-main_page()
+tab()
 
 root.mainloop()
