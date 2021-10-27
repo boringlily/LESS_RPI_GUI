@@ -18,7 +18,9 @@ def tab(): #Main Page
     canv1 = Canvas(root, bg='white', width=1600, height=1000) #1024X600 for everything
     canv1.place(x=1, y=1)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo Resize
+
+    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png"))  # LE Logo Resize
+
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
     #resized=my_img.resize((200, 200))
