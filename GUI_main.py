@@ -8,7 +8,7 @@ from PIL import ImageTk, Image
 
 win = Tk()
 win.attributes('-fullscreen', True)
-
+win.configure(bg='white')
 win.title("Substation Technical Training Simulator")
 win.geometry("1024x600")
 
