@@ -2,15 +2,15 @@
 from tkinter import *
 from PIL import ImageTk, Image
 
-# global image variable definitions
-
+# env variable definitions
+window_width = 1024
+window_height = 550
 # Create an instance of tkinter frame
-
 win = Tk()
-win.attributes('-fullscreen', True)
+# win.attributes('-fullscreen', True)
 win.configure(bg='white')
 win.title("Substation Technical Training Simulator")
-win.geometry("1024x600")
+win.geometry(f"{window_width}x{window_height}")
 
 
 def draw_header():
@@ -25,28 +25,60 @@ def draw_header():
           foreground="white", compound="center").place(x=512, y=14)
 
 
+def draw_footer(page_name, back_to): # back_to can be: quit, main, preset
+    footer = Frame(win, bg="#c4c4c4", width='1024', height=100).place(x=0, y=500)
+    Label(footer, text=f'{page_name}', font=('nunito', 22), foreground="black", bg="#c4c4c4", justify='center').\
+        place(x=450, y=507)
+
+    if back_to == 'quit':
+        Button(footer, text='Quit', font=('nunito', 22), fg="black", bg="#c4c4c4", justify='center',
+               command=close_app).place(x=39, y=507)
+        Button(footer, text='Settings', font=('nunito', 22), fg="black", bg='#c4c4c4', justify='center',
+               command=settings_page).place(x=893, y=507)
+    elif back_to == 'main':
+        Button(footer, text='Back', font=('nunito', 22), fg="black", bg="#c4c4c4", justify='center',
+               command=main_page).place(x=39, y=507)
+        # Button(footer, text='Settings', font=('nunito', 22), fg="black", bg='#c4c4c4', justify='center', command=settings_page).place(x=893, y=507)
+    elif back_to == 'preset':
+        Button(footer, text='Back', font=('nunito', 22), fg="black", bg="#c4c4c4", justify='center',
+               command=preset_page).place(x=39, y=507)
+        Button(footer, text='to main', font=('nunito', 22), fg="black", bg='#c4c4c4', justify='center',
+               command=settings_page).place(x=893, y=507)
+
+
 # a function that clears everything of the page, make sure to only define one window and frame
 def clear_body_frame():
     for widgets in win.winfo_children():
         widgets.destroy()
 
 
+def close_app():
+    quit()
+
+
 def main_page():
     clear_body_frame()
     draw_header()
+    draw_footer("Main Menu", "quit")
+
     global main_button_img
     main_button_img = ImageTk.PhotoImage(Image.open('./UI/Large_Button.jpg'))
 
-    Button(win, image=main_button_img, text='Preset Faults', font=('nunito', 30, 'bold'), compound='center', foreground='white').place(x=324, y=248)
-    Button(win, image=main_button_img, text='Manual Control', font=('nunito', 30, 'bold'), compound='center', foreground='white').place(x=324, y=342)
-
+    Button(win, image=main_button_img, text='Preset Faults', font=('nunito', 30, 'bold'),
+           compound='center', foreground='white').place(x=324, y=175)
+    Button(win, image=main_button_img, text='Manual Control', font=('nunito', 30, 'bold'),
+           compound='center', foreground='white').place(x=324, y=275)
 
 
 def settings_page():
     clear_body_frame()
     draw_header()
-    settings_name = Label(win, text='settings page', font=('nunito', 28), background='grey', foreground='black').pack()
-    to_main_page = Button(win, text='main menu', command=main_page).pack(pady=20)
+    draw_footer('Settings', 'main')
+
+
+def preset_page():
+    clear_body_frame()
+    draw_header()
 
 
 main_page()
