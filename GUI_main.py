@@ -5,7 +5,10 @@ from PIL import ImageTk, Image
 # global image variable definitions
 
 # Create an instance of tkinter frame
+
 win = Tk()
+win.attributes('-fullscreen', True)
+
 win.title("Substation Technical Training Simulator")
 win.geometry("1024x600")
 
