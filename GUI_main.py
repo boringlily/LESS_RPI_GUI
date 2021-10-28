@@ -65,7 +65,7 @@ def main_page():
     main_button_img = ImageTk.PhotoImage(Image.open('./UI/Large_Button.jpg'))
 
     Button(win, image=main_button_img, text='Preset Faults', font=('nunito', 30, 'bold'),
-           compound='center', foreground='white').place(x=324, y=175)
+           compound='center', foreground='white', command=preset_page).place(x=324, y=175)
     Button(win, image=main_button_img, text='Manual Control', font=('nunito', 30, 'bold'),
            compound='center', foreground='white').place(x=324, y=275)
 
@@ -79,6 +79,22 @@ def settings_page():
 def preset_page():
     clear_body_frame()
     draw_header()
+    draw_footer('Presets', 'main')
+    _x, _y = 45, 200
+    y_spacing = 50
+    x_spacing = 73
+    global fault_img
+    fault_img = ImageTk.PhotoImage(Image.open('./UI/Fault_Blue.jpg'))
+    Button(win, image=fault_img, text='1', font=('nunito', 30, 'bold'),
+           compound='center', foreground='white', command=fault1_page).place(x=_x, y=_y)
+
+
+def fault1_page():
+    clear_body_frame()
+    draw_header()
+    draw_footer('Fault #1', 'preset')
+
+
 
 
 main_page()
