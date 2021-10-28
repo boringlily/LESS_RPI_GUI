@@ -2,10 +2,6 @@
 from tkinter import *
 from PIL import ImageTk, Image
 
-# env variables
-window_size = "1024x600"
-header_sizex, header_sizey = 1024, 114
-
 # global image variable definitions
 
 # Create an instance of tkinter frame
@@ -16,10 +12,10 @@ win.geometry("1024x600")
 
 def draw_header():
     global logo_img
-    logo_img = ImageTk.PhotoImage(Image.open('logo.png'))  # Lakeland Electric Logo
+    logo_img = ImageTk.PhotoImage(Image.open('./UI/logo.jpg'))  # Lakeland Electric Logo
 
     global UI_image
-    UI_image = ImageTk.PhotoImage(Image.open('./UI/Rectangle 7.png'))  # Rounded corner label template
+    UI_image = ImageTk.PhotoImage(Image.open('./UI/HeaderTextBox.png'))  # Rounded corner label template
 
     Label(win, image=logo_img).place(x=0, y=14)
     Label(win, image=UI_image, text="Substation Technical \n Training Simulator", font=('graphik', 30, 'bold'),
@@ -35,8 +31,11 @@ def clear_body_frame():
 def main_page():
     clear_body_frame()
     draw_header()
-    main_button_img = ImageTk.PhotoImage(Image.open('./UI/Rectangle 7.png'));
-    Button(win, text='main page', font=('nunito', 30, 'bold'), image=main_button_img,compound='center', foreground='white', width=375, height=75).place(x=324,y=248)
+    global main_button_img
+    main_button_img = ImageTk.PhotoImage(Image.open('./UI/Large_Button.jpg'))
+
+    Button(win, image=main_button_img, text='Preset Faults', font=('nunito', 30, 'bold'), compound='center', foreground='white').place(x=324, y=248)
+    Button(win, image=main_button_img, text='Manual Control', font=('nunito', 30, 'bold'), compound='center', foreground='white').place(x=324, y=342)
 
 
 
