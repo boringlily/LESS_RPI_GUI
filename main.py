@@ -15,11 +15,11 @@ def tab(): #Main Page
     clear_frame()
     global my_img
     
-    canv1 = Canvas(root, bg='white', width=1600, height=1000) #1024X600 for everything
+    canv1 = Canvas(root, bg='white', width=1024, height=600) #1024X600 for everything
     canv1.place(x=1, y=1)
 
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png"))  # LE Logo Resize
+    my_img = ImageTk.PhotoImage(Image.open('logo.jpg'))  # LE Logo Resize
 
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
@@ -55,7 +55,7 @@ def tab1(): #Settings Page
     canv1 = Canvas(root, bg='white', width=1600, height=1000)
     canv1.place(x=1, y=1)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
+    my_img = ImageTk.PhotoImage(Image.open("logo.png")) #LE Logo
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
 
@@ -100,7 +100,7 @@ def tab2(): #Faults Page
     label1= Label(root, text='Preset Faults', bg='white', fg='black', font=('Arial Black', 20))
     label1.place(x=200, y=250)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
+    my_img = ImageTk.PhotoImage(Image.open("logo.png")) #LE Logo
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
 
@@ -147,7 +147,7 @@ def tab3(): #Fault 1
     stp1= Label(root, text='    Step 1    ', bg='grey', fg='blue', font=('Arial Black', 20), width=10, height=2) #Step 1 Page label
     stp1.place(x=710, y=400)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
+    my_img = ImageTk.PhotoImage(Image.open("logo.png")) #LE Logo
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
     
@@ -181,7 +181,7 @@ def tab4(): #Fault 2
     stp2= Label(root, text='    Step 2    ', bg='grey', fg='blue', font=('Arial Black', 20), width=10, height=2) #Step 2 Page label
     stp2.place(x=710, y=400)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
+    my_img = ImageTk.PhotoImage(Image.open("logo.png")) #LE Logo
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
     
@@ -215,7 +215,7 @@ def tab5(): #Fault 3
     stp3= Label(root, text='    Step 3    ', bg='grey', fg='blue', font=('Arial Black', 20), width=10, height=2) #Step 3 Page label
     stp3.place(x=710, y=400)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
+    my_img = ImageTk.PhotoImage(Image.open("logo.png")) #LE Logo
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
     
@@ -248,7 +248,7 @@ def tab6(): #Fault 4
     stp4= Label(root, text='    Step 4    ', bg='grey', fg='blue', font=('Arial Black', 20), width=10, height=2) #Step 4 Page label
     stp4.place(x=710, y=400)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
+    my_img = ImageTk.PhotoImage(Image.open("logo.png")) #LE Logo
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
     
@@ -283,7 +283,7 @@ def tab7(): #Fault 5
     stp5= Label(root, text='    Step 5    ', bg='grey', fg='blue', font=('Arial Black', 20), width=10, height=2) #Step 5 Page label
     stp5.place(x=710, y=400)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE LogoSTTS
+    my_img = ImageTk.PhotoImage(Image.open("logo.png")) #LE LogoSTTS
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
     
@@ -318,7 +318,7 @@ def tab8(): #Fault 6
     stp6= Label(root, text='    Step 6    ', bg='grey', fg='blue', font=('Arial Black', 20), width=10, height=2) #Step 6 Page label
     stp6.place(x=710, y=400)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
+    my_img = ImageTk.PhotoImage(Image.open("logo.png")) #LE Logo
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
     
@@ -351,7 +351,7 @@ def tab9(): #Fault 7
     stp7= Label(root, text='    Step 7    ', bg='grey', fg='blue', font=('Arial Black', 20), width=10, height=2) #Step 7 Page label
     stp7.place(x=710, y=400)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
+    my_img = ImageTk.PhotoImage(Image.open("logo.png")) #LE Logo
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
     
@@ -384,7 +384,7 @@ def tab10(): #Fault 8
     stp8= Label(root, text='    Step 8    ', bg='grey', fg='blue', font=('Arial Black', 20), width=10, height=2) #Step 8 Page label
     stp8.place(x=710, y=400)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
+    my_img = ImageTk.PhotoImage(Image.open("logo.png")) #LE Logo
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
     
@@ -419,7 +419,7 @@ def tab11(): #Manual Mode
     manual_mode1= Label(root, text='Manual Mode', bg='white', fg='black', font=('Arial Black', 20)) #Manual mode page label
     manual_mode1.place(x=700, y=225)
 
-    my_img = ImageTk.PhotoImage(Image.open("LE_Logo.png")) #LE Logo
+    my_img = ImageTk.PhotoImage(Image.open("logo.png")) #LE Logo
     my_label = Label(image=my_img)
     my_label.grid(column=1, row=0)
     
