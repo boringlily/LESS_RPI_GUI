@@ -8,8 +8,8 @@ from dataclasses import dataclass, field
 class Faults:
     # faults object class
     totalSteps: int
-    steps: list[int] = field(default=list)
-    timing: list[int] = field(default=list)
+    steps = tuple()
+    timing = tuple()
 
     def __init__(self, steps, timing):
         self.steps = steps
@@ -132,10 +132,10 @@ def fault_page(fault:Faults):
 
 # test and validation
 def all_children(wid):
+    # returns the number of widgets currently drawn on the screen.
     num = 0
     for item in wid.winfo_children():
         num += 1
-
     return num
 
 
