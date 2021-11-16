@@ -7,7 +7,6 @@ from dataclasses import dataclass, field
 @dataclass()
 class Faults:
     # faults object class
-
     totalSteps: int
     steps: list[int] = field(default=list)
     timing: list[int] = field(default=list)
@@ -19,7 +18,6 @@ class Faults:
 
     def step(self, i):
         print(self.steps[i-1])
-
 
 
 # env variable definitions
@@ -108,23 +106,21 @@ def fault_page(fault:Faults):
     fault_blue = ImageTk.PhotoImage(Image.open('./UI/Fault_Blue.jpg'))
     global fault_grey
     fault_grey = ImageTk.PhotoImage(Image.open('./UI/Fault_Grey.jpg'))
-    global step_label
     step_label = Label(win, image=fault_grey, text='Step:#', font=('nunito', 30, 'bold'),
-          compound='center', foreground='#206CB9').place(x=422, y=250)
+                       compound='center', foreground='#206CB9')
+    step_label.place(x=422, y=250)
     fault1_counter = [0]
     fault1_counter[0] = 0
 
     def fault1_counter_add():
         fault1_counter[0] += 1
-        Label(win, image=fault_grey, text=f'Step: {fault1_counter[0]}', font=('nunito', 30, 'bold'),
-              compound='center', foreground='#206CB9').place(x=422, y=250)
+        step_label.configure(text=f'Step: {fault1_counter[0]} / {fault.totalSteps}')
         fault.step(fault1_counter[0])
      #  print(f'{all_children(win)}\n')
 
     def fault1_counter_sub():
         fault1_counter[0] -= 1
-        Label(win, image=fault_grey, text=f'Step: {fault1_counter[0]}', font=('nunito', 30, 'bold'),
-              compound='center', foreground='#206CB9').place(x=422, y=250)
+        step_label.configure(text=f'Step: {fault1_counter[0]} / {fault.totalSteps}')
         fault.step(fault1_counter[0])
      #  print(f'{all_children(win)}\n')
 
