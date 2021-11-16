@@ -9,8 +9,8 @@ class Faults:
     # faults object class
 
     totalSteps: int
-    steps: list[[int]] = field(default=list)
-    timing: list[[int]] = field(default=list)
+    steps: list[int] = field(default=list)
+    timing: list[int] = field(default=list)
 
     def __init__(self, steps, timing):
         self.steps = steps
