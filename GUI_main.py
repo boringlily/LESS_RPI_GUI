@@ -21,9 +21,6 @@ class Faults:
         print(self.steps[i-1])
 
 
-global fault1
-fault1 = Faults([1, 2, 3, 4], [50, 10, 50, 20])
-
 
 # env variable definitions
 window_width = 1024
@@ -72,6 +69,9 @@ def close_app():
 
 
 def preset_page():
+    # fault object initializations
+    fault1 = Faults([1, 2, 3, 4], [50, 10, 50, 20])
+
     clear_body_frame()
     draw_header()
     draw_footer('Presets', 'quit')
