@@ -2,22 +2,56 @@
 from tkinter import *
 from PIL import ImageTk, Image
 from dataclasses import dataclass, field
+from rpi_ws281x import *
+import argparse
+
+# RGB strip object definition
+
+LED_COUNT      = 58      # Number of LED pixels.
+LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).  
+LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
+LED_DMA        = 10      # DMA channel to use for generating signal (try 10)
+LED_BRIGHTNESS = 20    # Set to 0 for darkest and 255 for brightest
+LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
+LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
+
+#if __name__ == '__main__':
+# Process arguments
+parser = argparse.ArgumentParser()
+parser.add_argument('-c', '--clear', action='store_true', help='clear the display on exit')
+args = parser.parse_args()
+
+# Create NeoPixel object with appropriate configuration.
+strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+# Intialize the library (must be called once before other functions).
+strip.begin()
 
 
 @dataclass()
 class Faults:
     # faults object class
     totalSteps: int
+    num: int
     steps = tuple()
     timing = tuple()
+    
 
-    def __init__(self, steps, timing):
+    def __init__(self, steps, timing, num):
         self.steps = steps
         self.timing = timing
+        self.num = num
         self.totalSteps = len(self.steps)
-
+    
+    def clear(self):
+        for i in range(LED_COUNT):
+            strip.setPixelColor(i,Color(0,0,0))
+        strip.show()
+        
     def step(self, i):
         print(self.steps[i-1])
+        strip.setPixelColor(i-1,Color(255,0,0))
+        strip.show()
+    
 
 
 # env variable definitions
@@ -25,7 +59,7 @@ window_width = 1024
 window_height = 550
 # Create an instance of tkinter frame
 win = Tk()
-# win.attributes('-fullscreen', True)
+# win.attributes('-fullscreen', True) # uncomment to force window fullscreen
 win.configure(background='white')
 win.title("Substation Technical Training Simulator")
 win.geometry(f"{window_width}x{window_height}")
@@ -68,7 +102,7 @@ def close_app():
 
 def preset_page():
     # fault object initializations
-    fault1 = Faults([1, 2, 3, 4], [50, 10, 50, 20])
+    fault1 = Faults([1, 2, 3, 4], [50, 10, 50, 20], 1)
 
     clear_body_frame()
     draw_header()
@@ -99,8 +133,8 @@ def preset_page():
 def fault_page(fault:Faults):
     clear_body_frame()
     draw_header()
-    draw_footer('Fault #1', 'preset')
-    print(f'{all_children(win)}\n')
+    draw_footer(f'Fault #{fault.num}', 'preset')
+    
 
     global fault_blue
     fault_blue = ImageTk.PhotoImage(Image.open('./UI/Fault_Blue.jpg'))
@@ -115,13 +149,16 @@ def fault_page(fault:Faults):
     def fault1_counter_add():
         fault1_counter[0] += 1
         step_label.configure(text=f' {fault1_counter[0]} / {fault.totalSteps}')
+        fault.clear()
         fault.step(fault1_counter[0])
      #  print(f'{all_children(win)}\n')
 
     def fault1_counter_sub():
         fault1_counter[0] -= 1
         step_label.configure(text=f' {fault1_counter[0]} / {fault.totalSteps}')
+        fault.clear()
         fault.step(fault1_counter[0])
+        
      #  print(f'{all_children(win)}\n')
 
     Button(win, image=fault_blue, text='Back', font=('nunito', 30, 'bold'),
