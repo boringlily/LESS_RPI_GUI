@@ -38,9 +38,9 @@ def draw_header():
     global UI_image
     UI_image = ImageTk.PhotoImage(Image.open('./UI/HeaderTextBox.png'))  # Rounded corner label template
 
-    Label(win, image=logo_img).place(x=0, y=14)
+    Label(win, image=logo_img, highlightthickness = 0, bd = 0).place(x=0, y=14)
     Label(win, image=UI_image, text="Substation Technical \n Training Simulator", font=('graphik', 30, 'bold'),
-          foreground="white", compound="center").place(x=512, y=14)
+            compound="center", foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=512, y=14)
 
 
 def draw_footer(page_name, back_to):  # back_to can be: quit, main, preset
@@ -79,21 +79,21 @@ def preset_page():
     global fault_img
     fault_img = ImageTk.PhotoImage(Image.open('./UI/Fault_Blue.jpg'))
     Button(win, image=fault_img, text='1', font=('nunito', 30, 'bold'),
-           compound='center', foreground='white', command=lambda: fault_page(fault1)).place(x=_x, y=_y)
+           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white", command=lambda: fault_page(fault1)).place(x=_x, y=_y)
     Button(win, image=fault_img, text='2', font=('nunito', 30, 'bold'),
-           compound='center', foreground='white',).place(x=_x + x_spacing, y=_y)
+           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=_x + x_spacing, y=_y)
     Button(win, image=fault_img, text='3', font=('nunito', 30, 'bold'),
-           compound='center', foreground='white', ).place(x=_x + x_spacing * 2, y=_y)
+           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=_x + x_spacing * 2, y=_y)
     Button(win, image=fault_img, text='4', font=('nunito', 30, 'bold'),
-           compound='center', foreground='white',).place(x=_x + x_spacing * 3, y=_y)
+           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=_x + x_spacing * 3, y=_y)
     Button(win, image=fault_img, text='5', font=('nunito', 30, 'bold'),
-           compound='center', foreground='white',).place(x=_x, y=_y + y_spacing)
+           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=_x, y=_y + y_spacing)
     Button(win, image=fault_img, text='6', font=('nunito', 30, 'bold'),
-           compound='center', foreground='white', ).place(x=_x + x_spacing, y=_y + y_spacing)
+           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=_x + x_spacing, y=_y + y_spacing)
     Button(win, image=fault_img, text='7', font=('nunito', 30, 'bold'),
-           compound='center', foreground='white',).place(x=_x + x_spacing * 2, y=_y + y_spacing)
+           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=_x + x_spacing * 2, y=_y + y_spacing)
     Button(win, image=fault_img, text='8', font=('nunito', 30, 'bold'),
-           compound='center', foreground='white', ).place(x=_x + x_spacing * 3, y=_y + y_spacing)
+           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=_x + x_spacing * 3, y=_y + y_spacing)
 
 
 def fault_page(fault:Faults):
@@ -107,27 +107,27 @@ def fault_page(fault:Faults):
     global fault_grey
     fault_grey = ImageTk.PhotoImage(Image.open('./UI/Fault_Grey.jpg'))
     step_label = Label(win, image=fault_grey, text='Step:#', font=('nunito', 30, 'bold'),
-                       compound='center', foreground='#206CB9')
-    step_label.place(x=422, y=250)
+                       compound='center', foreground="#206CB9", highlightthickness = 0, bd = 0, bg = "white")
+    step_label.place(x=425, y=200)
     fault1_counter = [0]
     fault1_counter[0] = 0
 
     def fault1_counter_add():
         fault1_counter[0] += 1
-        step_label.configure(text=f'Step: {fault1_counter[0]} / {fault.totalSteps}')
+        step_label.configure(text=f' {fault1_counter[0]} / {fault.totalSteps}')
         fault.step(fault1_counter[0])
      #  print(f'{all_children(win)}\n')
 
     def fault1_counter_sub():
         fault1_counter[0] -= 1
-        step_label.configure(text=f'Step: {fault1_counter[0]} / {fault.totalSteps}')
+        step_label.configure(text=f' {fault1_counter[0]} / {fault.totalSteps}')
         fault.step(fault1_counter[0])
      #  print(f'{all_children(win)}\n')
 
     Button(win, image=fault_blue, text='Back', font=('nunito', 30, 'bold'),
-           compound='center', foreground='white', command=fault1_counter_sub).place(x=202, y=250)
+           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white", command=fault1_counter_sub).place(x=202, y=200)
     Button(win, image=fault_blue, text='Next', font=('nunito', 30, 'bold'),
-           compound='center', foreground='white', command=fault1_counter_add).place(x=642, y=250)
+           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white", command=fault1_counter_add).place(x=642, y=200)
 
 
 # test and validation
