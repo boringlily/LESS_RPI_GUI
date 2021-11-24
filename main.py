@@ -5,8 +5,8 @@ from dataclasses import dataclass, field
 from rpi_ws281x import *
 import argparse
 
-# RGB strip object definition
 
+# RGB strip object definition
 LED_COUNT      = 58      # Number of LED pixels.
 LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).  
 LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
@@ -15,7 +15,7 @@ LED_BRIGHTNESS = 20    # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
-#if __name__ == '__main__':
+# if __name__ == '__main__':
 # Process arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('-c', '--clear', action='store_true', help='clear the display on exit')
@@ -34,7 +34,6 @@ class Faults:
     num: int
     steps = tuple()
     timing = tuple()
-    
 
     def __init__(self, steps, timing, num):
         self.steps = steps
@@ -44,15 +43,19 @@ class Faults:
     
     def clear(self):
         for i in range(LED_COUNT):
-            strip.setPixelColor(i,Color(0,0,0))
+            strip.setPixelColor(i, Color(0,0,0))
         strip.show()
         
     def step(self, i):
         print(self.steps[i-1])
-        strip.setPixelColor(i-1,Color(255,0,0))
+        if i < LED_COUNT:
+            strip.setPixelColor(i-1, Color(255,0,0))
+        elif i < LED_COUNT * 2:
+            strip.setPixelColor(i - 1 - LED_COUNT, Color(255, 0, 0))
+        elif i < LED_COUNT * 3:
+            strip.setPixelColor(i - 1 - LED_COUNT*2, Color(255, 0, 0))
         strip.show()
     
-
 
 # env variable definitions
 window_width = 1024
@@ -74,7 +77,7 @@ def draw_header():
 
     Label(win, image=logo_img, highlightthickness = 0, bd = 0).place(x=0, y=14)
     Label(win, image=UI_image, text="Substation Technical \n Training Simulator", font=('graphik', 30, 'bold'),
-            compound="center", foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=512, y=14)
+          compound="center", foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=512, y=14)
 
 
 def draw_footer(page_name, back_to):  # back_to can be: quit, main, preset
