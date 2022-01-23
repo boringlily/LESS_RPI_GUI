@@ -4,62 +4,90 @@ from PIL import ImageTk, Image
 from dataclasses import dataclass, field
 from rpi_ws281x import *
 import argparse
+import faults
 
 
 # RGB strip object definition
-LED_COUNT      = 58      # Number of LED pixels.
-LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).  
-LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
-LED_DMA        = 10      # DMA channel to use for generating signal (try 10)
-LED_BRIGHTNESS = 20    # Set to 0 for darkest and 255 for brightest
-LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
-LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
+LED_COUNT = 47  # Number of LED pixels.
+LED_PIN = 18  # GPIO pin connected to the pixels (18 uses PWM!).
+LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
+LED_DMA = 10  # DMA channel to use for generating signal (try 10)
+LED_BRIGHTNESS = 20  # Set to 0 for darkest and 255 for brightest
+LED_INVERT = False  # True to invert the signal (when using NPN transistor level shift)
+LED_CHANNEL = 0  # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
-# if __name__ == '__main__':
 # Process arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('-c', '--clear', action='store_true', help='clear the display on exit')
 args = parser.parse_args()
 
-# Create NeoPixel object with appropriate configuration.
+# Create NeoPixel object with appropriate configuration and initialize.
 strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-# Intialize the library (must be called once before other functions).
-strip.begin()
+strip.begin()  # Initialize the library (must be called once before other functions).
+
+# predefined led states
+led_closed = Color(255, 0, 0)  # led state 0
+led_open = Color(0, 255, 0)  # led state 1
+led_energized = Color(255, 255, 255)  # led state 2
+led_fault = Color(253, 181, 6)  # led state 3
+led_off = Color(0, 0, 0)  # led state 4
+led_error = Color(0, 0, 255)  # led state if no other state is applied (signifies assignment error)
 
 
 @dataclass()
-class Faults:
-    # faults object class
-    totalSteps: int
-    num: int
-    steps = tuple()
-    timing = tuple()
 
-    def __init__(self, steps, timing, num):
+class Faults:  # faults object class
+
+
+    totalSteps: int
+    name: str
+    step_name = list()
+    steps = list()
+    timing = list()
+
+    def __init__(self, name, step_name, timing, steps):
+        self.name = name
+        self.step_name = step_name
         self.steps = steps
         self.timing = timing
-        self.num = num
         self.totalSteps = len(self.steps)
-    
+
+    @staticmethod
     def clear(self):
         for i in range(LED_COUNT):
-            strip.setPixelColor(i, Color(0,0,0))
+
+            strip.setPixelColor(i, Color(0, 0, 0))
         strip.show()
-        
-    def step(self, i):
-        print(self.steps[i-1])
-        if i < LED_COUNT:
-            strip.setPixelColor(i-1, Color(255,0,0))
-        elif i < LED_COUNT * 2:
-            strip.setPixelColor(i - 1 - LED_COUNT, Color(255, 0, 0))
-        elif i < LED_COUNT * 3:
-            strip.setPixelColor(i - 1 - LED_COUNT*2, Color(255, 0, 0))
+
+    def step(self, index):
+        for i in range(LED_COUNT):
+            state = self.steps[index][i]
+
+            if state == 0:
+                strip.setPixelColor(i, led_closed)
+            elif state == 1:
+                strip.setPixelColor(i, led_open)
+            elif state == 2:
+                strip.setPixelColor(i, led_energized)
+            elif state == 3:
+                strip.setPixelColor(i, led_fault)
+            elif state == 4:
+                strip.setPixelColor(i, led_off)
+            else:
+                strip.setPixelColor(i, led_error)
+
+
         strip.show()
-    
 
 # env variable definitions
 window_width = 1024
 window_height = 550
+
+dark_blue = "#206CB9"
+light_blue = "5B92CC"
+dark_grey = "C4C4C4"
+light_grey = "E5E5E5"
+
 # Create an instance of tkinter frame
 win = Tk()
 # win.attributes('-fullscreen', True) # uncomment to force window fullscreen
@@ -75,21 +103,22 @@ def draw_header():
     global UI_image
     UI_image = ImageTk.PhotoImage(Image.open('./UI/HeaderTextBox.png'))  # Rounded corner label template
 
-    Label(win, image=logo_img, highlightthickness = 0, bd = 0).place(x=0, y=14)
+    Label(win, image=logo_img, highlightthickness=0, bd=0).place(x=0, y=14)
     Label(win, image=UI_image, text="Substation Technical \n Training Simulator", font=('graphik', 30, 'bold'),
-          compound="center", foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=512, y=14)
+          compound="center", foreground="white", highlightthickness=0, bd=0, bg="white").place(x=512, y=14)
+
 
 
 def draw_footer(page_name, back_to):  # back_to can be: quit, main, preset
-    footer = Frame(win, background="#c4c4c4", width='1024', height=100).place(x=0, y=500)
-    Label(footer, text=f'{page_name}', font=('nunito', 22), foreground="black", bg="#c4c4c4", justify='center').\
+    footer = Frame(win, background=dark_grey, width='1024', height=100).place(x=0, y=500)
+    Label(footer, text=f'{page_name}', font=('nunito', 22), foreground="black", bg=dark_grey, justify='center'). \
         place(x=450, y=507)
 
     if back_to == 'quit':
-        Button(footer, text='Quit', font=('nunito', 22), fg="black", bg="#c4c4c4", justify='center',
+        Button(footer, text='Quit', font=('nunito', 22), fg="black", bg=dark_grey, justify='center',
                command=close_app).place(x=39, y=507)
     elif back_to == 'preset':
-        Button(footer, text='Back', font=('nunito', 22), fg="black", bg="#c4c4c4", justify='center',
+        Button(footer, text='Back', font=('nunito', 22), fg="black", bg=dark_grey, justify='center',
                command=preset_page).place(x=39, y=507)
 
 
@@ -105,69 +134,87 @@ def close_app():
 
 def preset_page():
     # fault object initializations
-    fault1 = Faults([1, 2, 3, 4], [50, 10, 50, 20], 1)
 
     clear_body_frame()
     draw_header()
     draw_footer('Presets', 'quit')
     _x, _y = 45, 200
     y_spacing = 50 + 75
-    x_spacing = 73+180
+    x_spacing = 73 + 180
     global fault_img
     fault_img = ImageTk.PhotoImage(Image.open('./UI/Fault_Blue.jpg'))
+
+    # fault menu buttons 1-8
     Button(win, image=fault_img, text='1', font=('nunito', 30, 'bold'),
-           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white", command=lambda: fault_page(fault1)).place(x=_x, y=_y)
+           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
+           command=lambda: fault_page(faults.fault1)).place(x=_x, y=_y)
     Button(win, image=fault_img, text='2', font=('nunito', 30, 'bold'),
-           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=_x + x_spacing, y=_y)
+           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
+           command=lambda: fault_page(faults.fault2)).place(x=_x + x_spacing, y=_y)
     Button(win, image=fault_img, text='3', font=('nunito', 30, 'bold'),
-           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=_x + x_spacing * 2, y=_y)
+           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
+           command=lambda: fault_page(faults.fault3)).place(x=_x + x_spacing * 2,
+                                                            y=_y)
     Button(win, image=fault_img, text='4', font=('nunito', 30, 'bold'),
-           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=_x + x_spacing * 3, y=_y)
+           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
+           command=lambda: fault_page(faults.fault4)).place(x=_x + x_spacing * 3,
+                                                            y=_y)
     Button(win, image=fault_img, text='5', font=('nunito', 30, 'bold'),
-           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=_x, y=_y + y_spacing)
+           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
+           command=lambda: fault_page(faults.fault5)).place(x=_x, y=_y + y_spacing)
     Button(win, image=fault_img, text='6', font=('nunito', 30, 'bold'),
-           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=_x + x_spacing, y=_y + y_spacing)
+           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
+           command=lambda: fault_page(faults.fault6)).place(x=_x + x_spacing,
+                                                            y=_y + y_spacing)
     Button(win, image=fault_img, text='7', font=('nunito', 30, 'bold'),
-           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=_x + x_spacing * 2, y=_y + y_spacing)
+           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
+           command=lambda: fault_page(faults.fault7)).place(x=_x + x_spacing * 2,
+                                                            y=_y + y_spacing)
     Button(win, image=fault_img, text='8', font=('nunito', 30, 'bold'),
-           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white").place(x=_x + x_spacing * 3, y=_y + y_spacing)
+           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
+           command=lambda: fault_page(faults.fault1)).place(x=_x + x_spacing * 3,
+                                                            y=_y + y_spacing)
 
 
-def fault_page(fault:Faults):
+def fault_page(fault: Faults):
     clear_body_frame()
     draw_header()
-    draw_footer(f'Fault #{fault.num}', 'preset')
-    
+    draw_footer(f'Fault {fault.name}', 'preset')
 
     global fault_blue
     fault_blue = ImageTk.PhotoImage(Image.open('./UI/Fault_Blue.jpg'))
     global fault_grey
     fault_grey = ImageTk.PhotoImage(Image.open('./UI/Fault_Grey.jpg'))
     step_label = Label(win, image=fault_grey, text='Step:#', font=('nunito', 30, 'bold'),
-                       compound='center', foreground="#206CB9", highlightthickness = 0, bd = 0, bg = "white")
+                       compound='center', foreground=dark_blue, highlightthickness=0, bd=0, bg="white")
     step_label.place(x=425, y=200)
-    fault1_counter = [0]
-    fault1_counter[0] = 0
+    counter = [0]
+    counter[0] = 0
 
     def fault1_counter_add():
-        fault1_counter[0] += 1
-        step_label.configure(text=f' {fault1_counter[0]} / {fault.totalSteps}')
-        fault.clear()
-        fault.step(fault1_counter[0])
-     #  print(f'{all_children(win)}\n')
+        if counter[0] <= fault.totalSteps:
+            counter[0] += 1
+            step_label.configure(text=f' {counter[0]} / {fault.totalSteps}')
+            fault.clear()
+            fault.step(counter[0])
+
+        # print(f'{all_children(win)}\n')
 
     def fault1_counter_sub():
-        fault1_counter[0] -= 1
-        step_label.configure(text=f' {fault1_counter[0]} / {fault.totalSteps}')
-        fault.clear()
-        fault.step(fault1_counter[0])
-        
-     #  print(f'{all_children(win)}\n')
+        if counter[0] <= fault.totalSteps:
+            counter[0] -= 1
+            step_label.configure(text=f' {counter[0]} / {fault.totalSteps}')
+            fault.clear()
+            fault.step(counter[0])
+
+        # print(f'{all_children(win)}\n')
 
     Button(win, image=fault_blue, text='Back', font=('nunito', 30, 'bold'),
-           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white", command=fault1_counter_sub).place(x=202, y=200)
+           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
+           command=fault1_counter_sub).place(x=202, y=200)
     Button(win, image=fault_blue, text='Next', font=('nunito', 30, 'bold'),
-           compound='center', foreground="white", highlightthickness = 0, bd = 0, bg = "white", command=fault1_counter_add).place(x=642, y=200)
+           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
+           command=fault1_counter_add).place(x=642, y=200)
 
 
 # test and validation
@@ -177,9 +224,6 @@ def all_children(wid):
     for item in wid.winfo_children():
         num += 1
     return num
-
-
-
 
 
 preset_page()
