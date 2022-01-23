@@ -1,14 +1,13 @@
 # Import the required libraries
-import string
 from tkinter import *
 from PIL import ImageTk, Image
 from dataclasses import dataclass, field
 from rpi_ws281x import *
 import argparse
+import faults
 
 # RGB strip object definition
-
-LED_COUNT = 58  # Number of LED pixels.
+LED_COUNT = 47  # Number of LED pixels.
 LED_PIN = 18  # GPIO pin connected to the pixels (18 uses PWM!).
 LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA = 10  # DMA channel to use for generating signal (try 10)
@@ -16,34 +15,34 @@ LED_BRIGHTNESS = 20  # Set to 0 for darkest and 255 for brightest
 LED_INVERT = False  # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL = 0  # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
-# if __name__ == '__main__':
 # Process arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('-c', '--clear', action='store_true', help='clear the display on exit')
 args = parser.parse_args()
 
-# Create NeoPixel object with appropriate configuration.
+# Create NeoPixel object with appropriate configuration and initialize.
 strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-# Intialize the library (must be called once before other functions).
-strip.begin()
-# predefined led states
-led_closed = Color(255, 0, 0)
-led_energized = Color(0, 0, 0)
-led_open = Color(0, 255, 0)
-led_fault = Color(253, 181, 6)
+strip.begin()  # Initialize the library (must be called once before other functions).
 
+# predefined led states
+led_closed = Color(255, 0, 0)  # led state 0
+led_open = Color(0, 255, 0)  # led state 1
+led_energized = Color(255, 255, 255)  # led state 2
+led_fault = Color(253, 181, 6)  # led state 3
+led_off = Color(0, 0, 0)  # led state 4
+led_error = Color(0, 0, 255)  # led state if no other state is applied (signifies assignment error)
 
 
 @dataclass()
-class Faults:
-    # faults object class
+class Faults:  # faults object class
+
     totalSteps: int
     name: str
     step_name = list()
     steps = list()
     timing = list()
 
-    def __init__(self, name, step_name, steps, timing):
+    def __init__(self, name, step_name, timing, steps):
         self.name = name
         self.step_name = step_name
         self.steps = steps
@@ -59,16 +58,19 @@ class Faults:
     def step(self, index):
         for i in range(LED_COUNT):
             state = self.steps[index][i]
-            color
 
             if state == 0:
-                color = "red"
+                strip.setPixelColor(i, led_closed)
             elif state == 1:
-                color = "green"
+                strip.setPixelColor(i, led_open)
             elif state == 2:
-                color = "blue"
-
-            strip.setPixelColor(i, color)
+                strip.setPixelColor(i, led_energized)
+            elif state == 3:
+                strip.setPixelColor(i, led_fault)
+            elif state == 4:
+                strip.setPixelColor(i, led_off)
+            else:
+                strip.setPixelColor(i, led_error)
 
         strip.show()
 
@@ -127,7 +129,6 @@ def close_app():
 
 def preset_page():
     # fault object initializations
-    fault1 = Faults("fault1", ["1", "2", "3", "4"], [12, 22, 33, 14], [50, 10, 50, 20])
 
     clear_body_frame()
     draw_header()
@@ -137,28 +138,37 @@ def preset_page():
     x_spacing = 73 + 180
     global fault_img
     fault_img = ImageTk.PhotoImage(Image.open('./UI/Fault_Blue.jpg'))
+
+    # fault menu buttons 1-8
     Button(win, image=fault_img, text='1', font=('nunito', 30, 'bold'),
            compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
-           command=lambda: fault_page(fault1)).place(x=_x, y=_y)
+           command=lambda: fault_page(faults.fault1)).place(x=_x, y=_y)
     Button(win, image=fault_img, text='2', font=('nunito', 30, 'bold'),
-           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white").place(x=_x + x_spacing, y=_y)
+           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
+           command=lambda: fault_page(faults.fault2)).place(x=_x + x_spacing, y=_y)
     Button(win, image=fault_img, text='3', font=('nunito', 30, 'bold'),
-           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white").place(x=_x + x_spacing * 2,
-                                                                                                y=_y)
+           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
+           command=lambda: fault_page(faults.fault3)).place(x=_x + x_spacing * 2,
+                                                            y=_y)
     Button(win, image=fault_img, text='4', font=('nunito', 30, 'bold'),
-           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white").place(x=_x + x_spacing * 3,
-                                                                                                y=_y)
+           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
+           command=lambda: fault_page(faults.fault4)).place(x=_x + x_spacing * 3,
+                                                            y=_y)
     Button(win, image=fault_img, text='5', font=('nunito', 30, 'bold'),
-           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white").place(x=_x, y=_y + y_spacing)
+           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
+           command=lambda: fault_page(faults.fault5)).place(x=_x, y=_y + y_spacing)
     Button(win, image=fault_img, text='6', font=('nunito', 30, 'bold'),
-           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white").place(x=_x + x_spacing,
-                                                                                                y=_y + y_spacing)
+           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
+           command=lambda: fault_page(faults.fault6)).place(x=_x + x_spacing,
+                                                            y=_y + y_spacing)
     Button(win, image=fault_img, text='7', font=('nunito', 30, 'bold'),
-           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white").place(x=_x + x_spacing * 2,
-                                                                                                y=_y + y_spacing)
+           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
+           command=lambda: fault_page(faults.fault7)).place(x=_x + x_spacing * 2,
+                                                            y=_y + y_spacing)
     Button(win, image=fault_img, text='8', font=('nunito', 30, 'bold'),
-           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white").place(x=_x + x_spacing * 3,
-                                                                                                y=_y + y_spacing)
+           compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
+           command=lambda: fault_page(faults.fault1)).place(x=_x + x_spacing * 3,
+                                                            y=_y + y_spacing)
 
 
 def fault_page(fault: Faults):
