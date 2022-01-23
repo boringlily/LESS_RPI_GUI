@@ -6,6 +6,7 @@ from rpi_ws281x import *
 import argparse
 import faults
 
+
 # RGB strip object definition
 LED_COUNT = 47  # Number of LED pixels.
 LED_PIN = 18  # GPIO pin connected to the pixels (18 uses PWM!).
@@ -34,7 +35,9 @@ led_error = Color(0, 0, 255)  # led state if no other state is applied (signifie
 
 
 @dataclass()
+
 class Faults:  # faults object class
+
 
     totalSteps: int
     name: str
@@ -52,6 +55,7 @@ class Faults:  # faults object class
     @staticmethod
     def clear(self):
         for i in range(LED_COUNT):
+
             strip.setPixelColor(i, Color(0, 0, 0))
         strip.show()
 
@@ -72,8 +76,8 @@ class Faults:  # faults object class
             else:
                 strip.setPixelColor(i, led_error)
 
-        strip.show()
 
+        strip.show()
 
 # env variable definitions
 window_width = 1024
@@ -102,6 +106,7 @@ def draw_header():
     Label(win, image=logo_img, highlightthickness=0, bd=0).place(x=0, y=14)
     Label(win, image=UI_image, text="Substation Technical \n Training Simulator", font=('graphik', 30, 'bold'),
           compound="center", foreground="white", highlightthickness=0, bd=0, bg="white").place(x=512, y=14)
+
 
 
 def draw_footer(page_name, back_to):  # back_to can be: quit, main, preset
