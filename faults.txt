@@ -8,7 +8,7 @@ import main
 
 # this document is formatted for readability and doesn't follow the formatting rules of python
 
-fault1 = main.Faults("Transmission Fault (644)", ["Normal State", "Fault", "Isolation", "Return to Normal"], [1000, 1000, 1000, 1000],
+fault1 = Faults("Transmission Fault (644)", ["Normal State", "Fault", "Isolation", "Return to Normal"], [1000, 1000, 1000, 1000],
 [
     [2, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 2, 0, 0, 2, 1, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2],
     [3, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 2, 0, 0, 2, 1, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2],
@@ -17,7 +17,7 @@ fault1 = main.Faults("Transmission Fault (644)", ["Normal State", "Fault", "Isol
 ]
 )
 
-fault2 = main.Faults("Transmission Fault & Breaker Failure", ["Normal State", "Fault", "Breaker Failure", "Isolation/SA", "Return to Normal"],
+fault2 = Faults("Transmission Fault & Breaker Failure", ["Normal State", "Fault", "Breaker Failure", "Isolation/SA", "Return to Normal"],
 [2000, 2000, 2000, 2000, 2000],
 [
     [2, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 2, 0, 0, 2, 1, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2],
@@ -29,7 +29,7 @@ fault2 = main.Faults("Transmission Fault & Breaker Failure", ["Normal State", "F
 )
 
 
-fault3 = main.Faults("69 kV Bus #1 Fault", ['Normal State', 'Fault',	'Isolation/SA', 'Return to Normal'],
+fault3 = Faults("69 kV Bus #1 Fault", ['Normal State', 'Fault',	'Isolation/SA', 'Return to Normal'],
 [2000, 2000, 2000, 2000, 2000],
 [
     [2, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 2, 0, 0, 2, 1, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2],
@@ -39,7 +39,7 @@ fault3 = main.Faults("69 kV Bus #1 Fault", ['Normal State', 'Fault',	'Isolation/
 ]
 )
 
-fault4 = main.Faults('Transformer #1 Fault', ['Normal state', 'Fault', 'Isolation', 'Return to normal'],
+fault4 = Faults('Transformer #1 Fault', ['Normal state', 'Fault', 'Isolation', 'Return to normal'],
 [2000, 2000, 2000, 2000],
 [
     [2, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 2, 0, 0, 2, 1, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2],
@@ -49,7 +49,7 @@ fault4 = main.Faults('Transformer #1 Fault', ['Normal state', 'Fault', 'Isolatio
 ]
 )
 
-fault5 = main.Faults('12kV Bus #1 Fault', ['Normal State', 'Fault', 'Isolation', 'Return to Normal'],
+fault5 = Faults('12kV Bus #1 Fault', ['Normal State', 'Fault', 'Isolation', 'Return to Normal'],
 [2000, 2000, 2000, 2000],
 [
      [2, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 2, 0, 0, 2, 1, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2],
@@ -59,7 +59,7 @@ fault5 = main.Faults('12kV Bus #1 Fault', ['Normal State', 'Fault', 'Isolation',
 ]
 )
 
-fault6 = main.Faults('12kV Feeder Fault (334)', ['Normal State', 'Fault', 'Trip 1', 'Reclose 1', 'Trip 2', 'Reclose 2', 'Trip 3', 'Reclose 3', 'Trip 4/ LO'],
+fault6 = Faults('12kV Feeder Fault (334)', ['Normal State', 'Fault', 'Trip 1', 'Reclose 1', 'Trip 2', 'Reclose 2', 'Trip 3', 'Reclose 3', 'Trip 4/ LO'],
 [2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000],
 [
      [2, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 2, 0, 0, 2, 1, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2],
@@ -74,7 +74,7 @@ fault6 = main.Faults('12kV Feeder Fault (334)', ['Normal State', 'Fault', 'Trip 
 ]
 )
 
-fault7 = main.Faults('Feeder W/ Recloser Fault', ['Normal State', 'Fault', 'Trip 1', 'Reclose 1', 'Trip 2', 'Reclose 2', 'Trip 3', 'Reclose 3', 'Trip 4/ LO'],
+fault7 = Faults('Feeder W/ Recloser Fault', ['Normal State', 'Fault', 'Trip 1', 'Reclose 1', 'Trip 2', 'Reclose 2', 'Trip 3', 'Reclose 3', 'Trip 4/ LO'],
 [2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000],
 [
      [2, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 2, 0, 0, 2, 1, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2],
@@ -89,7 +89,7 @@ fault7 = main.Faults('Feeder W/ Recloser Fault', ['Normal State', 'Fault', 'Trip
 ]
 )
 
-fault8 = main.Faults('Feeder W/ Recloser Fault 2', ['Normal State', 'Fault', 'Trip 1', 'Reclose 1', 'Trip 2', 'Reclose 2', 'Trip 3', 'Reclose 3', 'Trip 4/ LO'],
+fault8 = Faults('Feeder W/ Recloser Fault 2', ['Normal State', 'Fault', 'Trip 1', 'Reclose 1', 'Trip 2', 'Reclose 2', 'Trip 3', 'Reclose 3', 'Trip 4/ LO'],
 [2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000],
 [
      [2, 2, 0, 0, 0, 2, 0, 2, 0, 0, 0, 2, 2, 0, 0, 2, 1, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2],
