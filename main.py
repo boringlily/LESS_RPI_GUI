@@ -1,8 +1,6 @@
-#Solely Developed by Levko Nikitin as part of the Research Assitant Position at
+#Developed by Levko Nikitin as part of the Research Assitant Position at
 #Florida Polytechnic University under the mentorship of Dr. Mohammad Reza Khalghani.
 
-#Many UI changes have been implemented as result of suggestions and requests from the
-#Lakeland Electric team 
 # Import the required libraries
 from tkinter import *
 from PIL import ImageTk, Image
