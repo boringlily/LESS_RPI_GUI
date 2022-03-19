@@ -34,8 +34,9 @@ led_open = Color(0, 255, 0)  # led state 1
 led_energized = Color(255, 255, 255)  # led state 2
 led_fault = Color(253, 181, 6)  # led state 3
 led_off = Color(0, 0, 0)  # led state 4
-led_error = Color(0, 0, 255)  # led state if no other state is applied (signifies assignment error)
-# led_blink is state 9
+led_blink = Color(0, 0, 255) # led state 9
+led_error = Color(100, 100, 100)  # led state if no other state is applied (signifies assignment error)
+
 
 @dataclass()
 
@@ -86,40 +87,11 @@ class Faults:  # faults object class
             elif state == 4:
                 strip.setPixelColor(i, led_off)
             elif state == 9:
-                strip.setPixelColor(i, led_error)
+                strip.setPixelColor(i, led_blink)
             else:
                 strip.setPixelColor(i, led_error)
         strip.show()
-        #if bool(blink_list):
-            #Faults.breakerBlink()
-        
-    @staticmethod
-    def breakerBlink():
-        global blink_list
-        global blink_count
-        global blink_index
-        global blink
-        
-        if blink:           
-            strip.setPixelColor(blink_list[blink_index], led_fault)
-            #print('on')
-            blink = False
-        else:
-            strip.setPixelColor(blink_list[blink_index], led_error)
-           # print('off')
-            blink_count += 1
-            blink = True
-            
-        if blink_count == 5:
-                blink_count = 0
-                blink_index += 1
-                
-        
-        if blink_index < len(blink_list):
-            strip.show()
-            root.after(800, Faults.breakerBlink())
                     
-
 # Widget positioning variable
 window_width = 1024
 window_height = 550
