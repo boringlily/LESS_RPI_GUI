@@ -1,14 +1,12 @@
-#Developed by Levko Nikitin as part of the Research Assitant Position at
-#Florida Polytechnic University under the mentorship of Dr. Mohammad Reza Khalghani.
+# Developed by Levko Nikitin as part of the Research Assitant Position at
+# Florida Polytechnic University under the mentorship of Dr. Mohammad Reza Khalghani.
 
 # Import the required libraries
 from tkinter import *
 from PIL import ImageTk, Image
 from dataclasses import dataclass, field
 from rpi_ws281x import *
-import time
 import argparse
-
 
 # RGB strip object definition
 LED_COUNT = 47  # Number of LED pixels.
@@ -34,14 +32,12 @@ led_open = Color(0, 255, 0)  # led state 1
 led_energized = Color(255, 255, 255)  # led state 2
 led_fault = Color(253, 181, 6)  # led state 3
 led_off = Color(0, 0, 0)  # led state 4
-led_blink = Color(0, 0, 255) # led state 9
+led_blink = Color(0, 0, 255)  # led state 9
 led_error = Color(100, 100, 100)  # led state if no other state is applied (signifies assignment error)
 
 
 @dataclass()
-
 class Faults:  # faults object class
-
 
     totalSteps: int
     name: str
@@ -60,7 +56,7 @@ class Faults:  # faults object class
     def clear():
         for i in range(LED_COUNT):
             strip.setPixelColor(i, led_off)
-            
+
         strip.show()
 
     def step(self, index):
@@ -72,10 +68,10 @@ class Faults:  # faults object class
         blink_list = []
         blink_count = 0
         blink_index = 0
-        
+
         for i in range(LED_COUNT):
             state = self.steps[index][i]
-            
+
             if state == 0:
                 strip.setPixelColor(i, led_closed)
             elif state == 1:
@@ -91,7 +87,8 @@ class Faults:  # faults object class
             else:
                 strip.setPixelColor(i, led_error)
         strip.show()
-                    
+
+
 # Widget positioning variable
 window_width = 1024
 window_height = 550
@@ -105,7 +102,7 @@ light_grey = "#E5E5E5"
 
 # Create an instance of tkinter frame
 root = Tk()
-root.attributes('-fullscreen', True) # uncomment to force window fullscreen
+root.attributes('-fullscreen', True)  # uncomment to force window fullscreen
 root.configure(background='white')
 root.title("Substation Technical Training Simulator")
 root.geometry(f"{window_width}x{window_height}")
@@ -123,10 +120,10 @@ def draw_header():
           compound="center", foreground="white", highlightthickness=0, bd=0, bg="white").place(x=512, y=14)
 
 
-
 def draw_footer(page_name, back_to):  # back_to can be: quit or preset
-    footer = Frame(root, background=dark_grey, width='1024', height=100).place(x=0, y=footer_top-20)
-    pageName = Label(footer, text=f'{page_name}', font=('nunito', 22), foreground="black", bg=dark_grey, justify='center').place(x=250, y=footer_top)
+    footer = Frame(root, background=dark_grey, width='1024', height=100).place(x=0, y=footer_top - 20)
+    pageName = Label(footer, text=f'{page_name}', font=('nunito', 22), foreground="black", bg=dark_grey,
+                     justify='center').place(x=250, y=footer_top)
 
     if back_to == 'quit':
         Button(footer, text='Quit', font=('nunito', 22), fg="black", bg=dark_grey, justify='center',
@@ -320,26 +317,26 @@ def preset_page():
     Button(root, image=fault_img, text='3', font=('nunito', 30, 'bold'),
            compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
            command=lambda: fault_page(fault3)).place(x=_x + x_spacing * 2,
-                                                            y=_y)
+                                                     y=_y)
     Button(root, image=fault_img, text='4', font=('nunito', 30, 'bold'),
            compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
            command=lambda: fault_page(fault4)).place(x=_x + x_spacing * 3,
-                                                            y=_y)
+                                                     y=_y)
     Button(root, image=fault_img, text='5', font=('nunito', 30, 'bold'),
            compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
            command=lambda: fault_page(fault5)).place(x=_x, y=_y + y_spacing)
     Button(root, image=fault_img, text='6', font=('nunito', 30, 'bold'),
            compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
            command=lambda: fault_page(fault6)).place(x=_x + x_spacing,
-                                                            y=_y + y_spacing)
+                                                     y=_y + y_spacing)
     Button(root, image=fault_img, text='7', font=('nunito', 30, 'bold'),
            compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
            command=lambda: fault_page(fault7)).place(x=_x + x_spacing * 2,
-                                                            y=_y + y_spacing)
+                                                     y=_y + y_spacing)
     Button(root, image=fault_img, text='8', font=('nunito', 30, 'bold'),
            compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",
            command=lambda: fault_page(fault8)).place(x=_x + x_spacing * 3,
-                                                            y=_y + y_spacing)
+                                                     y=_y + y_spacing)
 
 
 def fault_page(fault: Faults):
@@ -351,49 +348,46 @@ def fault_page(fault: Faults):
     # ***** VARIABLES *****
     global running
     global counter
-    
+
     running = False  # use a boolean variable to help control state of time (running or not running)
     counter = -1  # time variables initially set to -1 so that when counted up the index passed to the list starts at 0
 
-    def counter_add():
+    def counter_add():  # inc counter if less than the total steps in the fault
         global counter
         if counter < fault.totalSteps - 1:
             counter += 1
             step_label.config(text=f'{fault.step_name[counter]}')
             fault.step(counter)
 
-    def counter_sub():
+    def counter_sub():  # inc counter if greater than zero
         global counter
         if counter > 0:
             counter -= 1
             step_label.config(text=f'{fault.step_name[counter]}')
             fault.step(counter)
 
-    def start():
+    def start():  # starts auto play
         global running
         if not running:
             update()
             running = True
 
-    # pause function
-    def pause():
+    def pause():  # pauses auto play
         global running
         if running:
             # cancel updating loop using after_cancel()
             step_label.after_cancel(update_time)
             running = False
 
-    # reset function
-    def reset():
+    def reset():  # resets the fault loop
         # clear strip
         Faults.clear()
-        
+
         global update_time
         global running
-        
+
         # check loop state
         if running:
-
             step_label.after_cancel(update_time)
             running = False
         # reset variables
@@ -402,16 +396,15 @@ def fault_page(fault: Faults):
         # reset label
         step_label.config(text='Step Name')
 
-    # update function
-    def update():
+    def update():  # recursive loop that runs the auto play feature for the faults
         # update counter
         global counter
         counter += 1
-        
+
         step_label.config(text=f'{fault.step_name[counter]}')
-        
+
         fault.step(counter)
-        
+
         if counter < fault.totalSteps - 1:
             global update_time
             update_time = step_label.after(fault.timing[counter], update)
@@ -424,21 +417,23 @@ def fault_page(fault: Faults):
     step_label = Label(root, image=fault_grey, text='Step Name', font=('nunito', 30, 'bold'),
                        compound='center', foreground=dark_blue, highlightthickness=0, bd=0, bg="white")
     step_label.place(x=112, y=200)
-    
 
-    back_button = Button(root, image=fault_blue, text='Back', font=('nunito', 30, 'bold'), compound='center', foreground="white", highlightthickness=0, bd=0, bg="white",command=counter_sub)
+    back_button = Button(root, image=fault_blue, text='Back', font=('nunito', 30, 'bold'), compound='center',
+                         foreground="white", highlightthickness=0, bd=0, bg="white", command=counter_sub)
 
-    start_button = Button(root, image=fault_blue, text='Play', font=('nunito', 30, 'bold'), compound='center', foreground="white", highlightthickness=0, bd=0, bg="white", command=start)
-    
+    start_button = Button(root, image=fault_blue, text='Play', font=('nunito', 30, 'bold'), compound='center',
+                          foreground="white", highlightthickness=0, bd=0, bg="white", command=start)
 
-    reset_button = Button(root, image=fault_blue, text='Reset', font=('nunito', 30, 'bold'), compound='center', foreground="white", highlightthickness=0, bd=0, bg="white", command=reset)
-    
+    reset_button = Button(root, image=fault_blue, text='Reset', font=('nunito', 30, 'bold'), compound='center',
+                          foreground="white", highlightthickness=0, bd=0, bg="white", command=reset)
 
-    pause_button = Button(root, image=fault_blue, text='Pause', font=('nunito', 30, 'bold'), compound='center', foreground="white", highlightthickness=0, bd=0, bg="white", command=pause)
-    
+    pause_button = Button(root, image=fault_blue, text='Pause', font=('nunito', 30, 'bold'), compound='center',
+                          foreground="white", highlightthickness=0, bd=0, bg="white", command=pause)
 
-    next_button = Button(root, image=fault_blue, text='Next', font=('nunito', 30, 'bold'), compound='center', foreground="white", highlightthickness=0, bd=0, bg="white", command=counter_add)
-    
+    next_button = Button(root, image=fault_blue, text='Next', font=('nunito', 30, 'bold'), compound='center',
+                         foreground="white", highlightthickness=0, bd=0, bg="white", command=counter_add)
+
+    # button positions on the screen
     back_button.place(x=27, y=300)
     start_button.place(x=232, y=300)
     reset_button.place(x=437, y=300)
