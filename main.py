@@ -1,4 +1,4 @@
-# Developed by Levko Nikitin as part of the Research Assitant Position at
+# Developed by Levko Nikitin as part of the Research Assistant Position at
 # Florida Polytechnic University under the mentorship of Dr. Mohammad Reza Khalghani.
 
 # Import the required libraries
@@ -13,7 +13,7 @@ LED_COUNT = 47  # Number of LED pixels.
 LED_PIN = 18  # GPIO pin connected to the pixels (18 uses PWM!).
 LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA = 10  # DMA channel to use for generating signal (try 10)
-LED_BRIGHTNESS = 20  # Set to 0 for darkest and 255 for brightest
+LED_BRIGHTNESS = 200  # Set to 0 for darkest and 255 for brightest
 LED_INVERT = False  # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL = 0  # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
@@ -23,8 +23,8 @@ parser.add_argument('-c', '--clear', action='store_true', help='clear the displa
 args = parser.parse_args()
 
 # Create NeoPixel object with appropriate configuration and initialize.
-strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-strip.begin()  # Initialize the library (must be called once before other functions).
+substation = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+substation.begin()  # Initialize the library (must be called once before other functions).
 
 # predefined led states
 led_closed = Color(255, 0, 0)  # led state 0
@@ -55,41 +55,33 @@ class Faults:  # faults object class
     @staticmethod
     def clear():
         for i in range(LED_COUNT):
-            strip.setPixelColor(i, led_off)
+            substation.setPixelColor(i, led_off)
 
-        strip.show()
+        substation.show()
 
     def step(self, index):
-        global blink_list
-        global blink_count
-        global blink_index
-        global blink
-        blink = True
-        blink_list = []
-        blink_count = 0
-        blink_index = 0
 
         for i in range(LED_COUNT):
             state = self.steps[index][i]
 
             if state == 0:
-                strip.setPixelColor(i, led_closed)
+                substation.setPixelColor(i, led_closed)
             elif state == 1:
-                strip.setPixelColor(i, led_open)
+                substation.setPixelColor(i, led_open)
             elif state == 2:
-                strip.setPixelColor(i, led_energized)
+                substation.setPixelColor(i, led_energized)
             elif state == 3:
-                strip.setPixelColor(i, led_fault)
+                substation.setPixelColor(i, led_fault)
             elif state == 4:
-                strip.setPixelColor(i, led_off)
+                substation.setPixelColor(i, led_off)
             elif state == 9:
-                strip.setPixelColor(i, led_blink)
+                substation.setPixelColor(i, led_blink)
             else:
-                strip.setPixelColor(i, led_error)
-        strip.show()
+                substation.setPixelColor(i, led_error)
+        substation.show()
 
 
-# Widget positioning variable
+# Widget positioning variables in pixels
 window_width = 1024
 window_height = 550
 
@@ -110,10 +102,10 @@ root.geometry(f"{window_width}x{window_height}")
 
 def draw_header():
     global logo_img
-    logo_img = ImageTk.PhotoImage(Image.open('./UI/logo.jpg'))  # Lakeland Electric Logo
+    logo_img = ImageTk.PhotoImage(Image.open('UI/Logo.jpg'))  # Lakeland Electric logo
 
     global UI_image
-    UI_image = ImageTk.PhotoImage(Image.open('./UI/HeaderTextBox.png'))  # Rounded corner label template
+    UI_image = ImageTk.PhotoImage(Image.open('UI/Header_Text_Box.png'))  # Rounded corner label template
 
     Label(root, image=logo_img, highlightthickness=0, bd=0).place(x=0, y=14)
     Label(root, image=UI_image, text="Substation Technical \n Training Simulator", font=('graphik', 30, 'bold'),
@@ -122,7 +114,7 @@ def draw_header():
 
 def draw_footer(page_name, back_to):  # back_to can be: quit or preset
     footer = Frame(root, background=dark_grey, width='1024', height=100).place(x=0, y=footer_top - 20)
-    pageName = Label(footer, text=f'{page_name}', font=('nunito', 22), foreground="black", bg=dark_grey,
+    Label(footer, text=f'{page_name}', font=('nunito', 22), foreground="black", bg=dark_grey,
                      justify='center').place(x=250, y=footer_top)
 
     if back_to == 'quit':
