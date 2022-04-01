@@ -1,4 +1,4 @@
-mv -f /home/pi/Downloads/LESS_RPI_GUI-main /home/pi/
+mv -f /home/pi/Downloads/LESS_RPI_GUI /home/pi/
 
 ##### install python3 and pip
 cd || exit;
@@ -15,7 +15,7 @@ cd /home/pi/ || exit;
 curl -L http://coreelec.io/33 | bash
 
 ##### Setup automations
-sudo mv -f /home/pi/LESS_RPI_GUI-main/setup/autostart /etc/xdg/lxsession/LXDE-pi/
+sudo mv -f /home/pi/LESS_RPI_GUI/setup/autostart /etc/xdg/lxsession/LXDE-pi/
 
 ##### Finish instructions
 

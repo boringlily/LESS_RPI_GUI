@@ -1,4 +1,4 @@
 @lxpanel --profile LXDE-pi
 @pcmanfm --desktop --profile LXDE-pi
 @xscreensaver -no-splash
-@lxterminal -e bash /home/pi/LESS_RPI_GUI-main/setup/autorun.sh
+@lxterminal -e bash /home/pi/LESS_RPI_GUI/setup/autorun.sh
